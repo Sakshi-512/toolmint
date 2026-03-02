@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QRcraft – Free QR Code Generator with Logo, Colors & Frames</title>
+<meta name="description" content="Generate free QR codes with custom colors, logos, and frames. Download as PNG or SVG. No signup required. Works for URLs, WhatsApp, WiFi, email & more.">
+<meta name="keywords" content="free qr code generator, qr code with logo, qr code maker, qr code generator online, custom qr code, qr code download">
+<meta property="og:title" content="QRcraft – Free QR Code Generator">
+<meta property="og:description" content="Create custom QR codes with logos, colors, and frames. 100% free, no signup.">
+<link rel="canonical" href="https://qrcraft.io/">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root {
+  --bg:#faf8f5; --white:#fff; --ink:#1a1714; --ink-light:#6b6560;
+  --border:#e8e3dc; --accent:#c0392b; --accent-dark:#96281b;
+  --accent-light:#fdf0ee; --surface:#f3f0eb;
+  --shadow:0 2px 20px rgba(26,23,20,.08); --shadow-lg:0 8px 40px rgba(26,23,20,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;min-height:100vh;font-size:15px;line-height:1.6;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231a1714' fill-opacity='0.018'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none;z-index:0;}
+
+/* HEADER */
+header{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--ink);}
+.logo span{color:var(--accent);}
+.pill{font-size:0.7rem;font-weight:600;letter-spacing:.5px;padding:4px 12px;border-radius:100px;border:1px solid var(--border);color:var(--ink-light);background:var(--surface);text-transform:uppercase;margin-left:8px;}
+
+/* AD */
+.ad-leaderboard{position:relative;z-index:5;background:var(--white);border-bottom:1px solid var(--border);padding:14px;text-align:center;}
+.ad-slot{display:inline-flex;align-items:center;justify-content:center;background:var(--surface);border:1px dashed #ccc;color:#aaa;font-size:.7rem;letter-spacing:1px;font-weight:500;text-transform:uppercase;}
+.ad-slot-728{width:min(728px,100%);height:90px;}
+.ad-slot-300{width:300px;height:250px;}
+
+/* HERO */
+.hero{position:relative;z-index:1;text-align:center;padding:52px 24px 36px;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:28px;height:1px;background:var(--accent);opacity:.4;}
+h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.4rem);font-weight:900;line-height:1.1;letter-spacing:-1px;margin-bottom:12px;}
+h1 em{font-style:italic;color:var(--accent);}
+.hero p{color:var(--ink-light);font-size:.95rem;font-weight:300;max-width:480px;margin:0 auto;}
+
+/* FEATURES */
+.features{position:relative;z-index:1;background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:24px;}
+.features-inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;gap:20px;justify-content:center;}
+.fi{display:flex;align-items:center;gap:10px;padding:8px 16px;background:var(--bg);border:1px solid var(--border);border-radius:2px;}
+.fi .ic{font-size:1.1rem;}
+.fi span{font-size:.8rem;font-weight:500;color:var(--ink);}
+
+/* TABS */
+.tabs-nav{display:flex;border-bottom:1px solid var(--border);background:var(--white);position:relative;z-index:1;}
+.tab-btn{flex:1;padding:14px 8px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;border:none;background:transparent;cursor:pointer;color:var(--ink-light);border-bottom:2px solid transparent;transition:all .2s;letter-spacing:.3px;}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--accent-light);}
+.tab-btn:hover:not(.active){color:var(--ink);background:var(--surface);}
+
+/* LAYOUT */
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:28px 24px 80px;display:grid;grid-template-columns:460px 1fr;gap:28px;align-items:start;}
+@media(max-width:900px){.container{grid-template-columns:1fr;}header{padding:0 20px;}}
+
+/* CARD */
+.card{background:var(--white);border:1px solid var(--border);border-radius:2px;box-shadow:var(--shadow);}
+.card-header{padding:18px 26px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.card-header .icon{width:30px;height:30px;background:var(--accent-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;}
+.card-header h2{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;}
+.card-body{padding:24px;}
+
+/* TAB PANELS */
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+
+/* FIELDS */
+.field{margin-bottom:18px;}
+.field label{display:block;font-size:.7rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;}
+.field input[type="text"],.field select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:2px;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.88rem;padding:10px 13px;outline:none;transition:border-color .2s,box-shadow .2s;appearance:none;}
+.field input:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(192,57,43,.08);}
+.select-wrap{position:relative;}
+.select-wrap::after{content:'▾';position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--ink-light);pointer-events:none;font-size:.75rem;}
+
+/* COLORS */
+.color-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.color-field label{display:block;font-size:.68rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;}
+.color-swatch-btn{display:flex;align-items:center;gap:10px;border:1px solid var(--border);border-radius:2px;padding:8px 12px;background:var(--bg);cursor:pointer;transition:border-color .2s;position:relative;width:100%;}
+.color-swatch-btn:hover{border-color:var(--accent);}
+.swatch{width:26px;height:26px;border-radius:50%;border:2px solid rgba(0,0,0,.08);flex-shrink:0;}
+.color-swatch-btn input[type="color"]{position:absolute;opacity:0;width:0;height:0;}
+.color-swatch-btn span{font-size:.75rem;color:var(--ink-light);font-family:monospace;}
+
+/* PRESETS */
+.color-presets{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.preset-dot{width:26px;height:26px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform .15s,border-color .15s;flex-shrink:0;}
+.preset-dot:hover{transform:scale(1.15);border-color:var(--ink);}
+.preset-dot.selected{border-color:var(--accent);transform:scale(1.1);}
+
+/* LOGO UPLOAD */
+.upload-zone{border:1.5px dashed var(--border);border-radius:2px;padding:16px;text-align:center;cursor:pointer;transition:all .2s;position:relative;background:var(--bg);}
+.upload-zone:hover{border-color:var(--accent);background:var(--accent-light);}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.upload-zone .up-icon{font-size:1.3rem;margin-bottom:4px;}
+.upload-zone p{font-size:.78rem;color:var(--ink-light);}
+.upload-zone .up-label{font-size:.72rem;color:var(--accent);font-weight:600;margin-top:3px;}
+.logo-size-row{display:flex;align-items:center;gap:10px;margin-top:10px;}
+.logo-size-row label{font-size:.72rem;color:var(--ink-light);white-space:nowrap;}
+.logo-size-row input[type="range"]{flex:1;accent-color:var(--accent);}
+.logo-size-row span{font-size:.75rem;color:var(--ink);font-weight:600;min-width:32px;text-align:right;}
+
+/* FRAMES */
+.frame-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;}
+.frame-opt{border:2px solid var(--border);border-radius:4px;padding:10px 6px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);}
+.frame-opt:hover{border-color:var(--accent);background:var(--accent-light);}
+.frame-opt.selected{border-color:var(--accent);background:var(--accent-light);}
+.frame-opt .frame-preview{width:52px;height:52px;margin:0 auto 6px;border-radius:2px;display:flex;align-items:center;justify-content:center;}
+.frame-opt .fp-inner{width:32px;height:32px;background:#222;border-radius:2px;}
+.frame-opt span{font-size:.68rem;font-weight:600;color:var(--ink-light);text-transform:uppercase;letter-spacing:.5px;}
+
+/* FRAME LABEL */
+.frame-label-field{margin-top:12px;}
+.frame-label-field label{font-size:.7rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;display:block;}
+
+/* CORNER STYLES */
+.corner-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
+.corner-opt{border:2px solid var(--border);padding:8px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);border-radius:2px;}
+.corner-opt:hover,.corner-opt.selected{border-color:var(--accent);background:var(--accent-light);}
+.corner-opt svg{display:block;margin:0 auto;}
+.corner-opt span{font-size:.65rem;color:var(--ink-light);display:block;margin-top:4px;}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:var(--ink-light);font-size:.68rem;text-transform:uppercase;letter-spacing:1px;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* BUTTON */
+.btn-primary{width:100%;padding:13px;background:var(--accent);color:white;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;letter-spacing:.3px;transition:background .2s,transform .1s,box-shadow .2s;box-shadow:0 2px 12px rgba(192,57,43,.25);}
+.btn-primary:hover{background:var(--accent-dark);box-shadow:0 4px 20px rgba(192,57,43,.35);transform:translateY(-1px);}
+.btn-primary:active{transform:translateY(0);}
+.btn-outline{flex:1;padding:10px;background:transparent;color:var(--ink);border:1px solid var(--border);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+
+/* OUTPUT */
+.output-card{position:sticky;top:24px;}
+.qr-stage{background:var(--surface);min-height:340px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);padding:28px;}
+.placeholder-state{text-align:center;color:var(--ink-light);}
+.ph-icon{width:76px;height:76px;margin:0 auto 14px;border:2px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--border);}
+.placeholder-state p{font-size:.82rem;color:var(--ink-light);font-weight:300;}
+.qr-result{text-align:center;}
+
+/* QR FRAMES OUTPUT */
+.qr-outer{display:inline-block;position:relative;}
+/* none */
+.frame-none .qr-outer{padding:0;}
+/* simple */
+.frame-simple .qr-outer{border:3px solid #222;padding:6px;}
+/* rounded */
+.frame-rounded .qr-outer{border:3px solid #222;border-radius:14px;padding:8px;overflow:hidden;}
+/* shadow */
+.frame-shadow .qr-outer{box-shadow:0 6px 32px rgba(0,0,0,.22);padding:8px;background:white;}
+/* banner */
+.frame-banner .qr-outer{border:3px solid #222;padding:6px 6px 36px;}
+/* dots */
+.frame-dots .qr-outer{border:4px dotted #888;padding:8px;}
+
+.frame-label-overlay{position:absolute;bottom:0;left:0;right:0;background:#222;color:white;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-align:center;padding:7px 6px;font-family:'DM Sans',sans-serif;}
+
+.qr-frame-inner{position:relative;display:inline-block;background:white;}
+.qr-frame-inner canvas,.qr-frame-inner img{display:block;}
+#logo-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:3px;object-fit:contain;display:none;}
+
+.qr-actions{padding:16px 24px;display:flex;gap:10px;border-bottom:1px solid var(--border);}
+.qr-meta{padding:13px 24px;display:flex;align-items:center;justify-content:space-between;}
+.qr-meta-text{font-size:.72rem;color:var(--ink-light);font-weight:300;}
+.qr-meta-text strong{color:var(--ink);font-weight:600;}
+
+.ad-side-wrap{margin-top:24px;}
+.ad-label{font-size:.65rem;color:#bbb;text-transform:uppercase;letter-spacing:1px;text-align:center;margin-bottom:6px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:white;padding:11px 22px;border-radius:100px;font-size:.82rem;font-weight:500;opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:999;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:24px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+footer .f-logo{font-family:'Playfair Display',serif;font-weight:700;font-size:1rem;}
+footer .f-logo span{color:var(--accent);}
+footer p{font-size:.72rem;color:var(--ink-light);font-weight:300;}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.animate-in{animation:fadeIn .35s ease forwards;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">QR<span>craft</span></div>
+  <div><span class="pill">Free Forever</span><span class="pill">No Signup</span></div>
+</header>
+
+<!-- TOP AD -->
+<div class="ad-leaderboard">
+  <!-- ✅ REPLACE WITH YOUR GOOGLE ADSENSE LEADERBOARD CODE -->
+  <div class="ad-slot ad-slot-728">Advertisement · Google AdSense 728×90</div>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">Free QR Code Generator</div>
+  <h1>Custom <em>QR Codes</em><br>with Logo & Frames</h1>
+  <p>Add your logo, pick colors, choose frames. Download PNG or SVG. 100% free, no account needed.</p>
+</div>
+
+<div class="features">
+  <div class="features-inner">
+    <div class="fi"><span class="ic">🔗</span><span>URL, WhatsApp, WiFi & more</span></div>
+    <div class="fi"><span class="ic">🖼️</span><span>Embed your logo</span></div>
+    <div class="fi"><span class="ic">🎨</span><span>Custom colors & presets</span></div>
+    <div class="fi"><span class="ic">🖼</span><span>6 frame styles</span></div>
+    <div class="fi"><span class="ic">📐</span><span>Corner shape styles</span></div>
+    <div class="fi"><span class="ic">📥</span><span>PNG & SVG download</span></div>
+    <div class="fi"><span class="ic">🔒</span><span>100% private, on-device</span></div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- LEFT PANEL -->
+  <div>
+    <div class="card">
+      <!-- TABS -->
+      <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('content',this)">① Content</button>
+        <button class="tab-btn" onclick="switchTab('design',this)">② Colors</button>
+        <button class="tab-btn" onclick="switchTab('logo',this)">③ Logo</button>
+        <button class="tab-btn" onclick="switchTab('frame',this)">④ Frame</button>
+      </div>
+
+      <div class="card-body">
+
+        <!-- TAB: CONTENT -->
+        <div class="tab-panel active" id="tab-content">
+          <div class="field">
+            <label>Content Type</label>
+            <div class="select-wrap">
+              <select id="qr-type" onchange="updateType()">
+                <option value="url">Website URL</option>
+                <option value="whatsapp">WhatsApp Number</option>
+                <option value="email">Email Address</option>
+                <option value="text">Plain Text</option>
+                <option value="phone">Phone Number</option>
+                <option value="wifi">WiFi Network</option>
+                <option value="vcard">Contact / vCard</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label id="input-label">Website URL</label>
+            <input type="text" id="qr-input" placeholder="https://yourwebsite.com" />
+          </div>
+          <div id="wifi-extras" style="display:none">
+            <div class="field"><label>WiFi Password</label><input type="text" id="wifi-pass" placeholder="Enter password" /></div>
+            <div class="field"><label>Security</label><div class="select-wrap"><select id="wifi-sec"><option value="WPA">WPA/WPA2</option><option value="WEP">WEP</option><option value="nopass">None</option></select></div></div>
+          </div>
+          <div id="vcard-extras" style="display:none">
+            <div class="field"><label>Full Name</label><input type="text" id="vc-name" placeholder="John Smith" /></div>
+            <div class="field"><label>Phone</label><input type="text" id="vc-phone" placeholder="+91 98765 43210" /></div>
+            <div class="field"><label>Email</label><input type="text" id="vc-email" placeholder="john@example.com" /></div>
+            <div class="field"><label>Company (optional)</label><input type="text" id="vc-company" placeholder="Acme Inc." /></div>
+          </div>
+          <div class="field">
+            <label>Output Size</label>
+            <div class="select-wrap">
+              <select id="qr-size">
+                <option value="200">Small – 200×200 px</option>
+                <option value="300" selected>Medium – 300×300 px</option>
+                <option value="400">Large – 400×400 px</option>
+                <option value="500">Extra Large – 500×500 px</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Error Correction</label>
+            <div class="select-wrap">
+              <select id="qr-ec">
+                <option value="L">Low – smaller QR, less robust</option>
+                <option value="M" selected>Medium – recommended</option>
+                <option value="H">High – best if adding a logo</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: DESIGN / COLORS -->
+        <div class="tab-panel" id="tab-design">
+          <div class="field">
+            <label>Color Presets</label>
+            <div class="color-presets" id="presets-row"></div>
+          </div>
+          <div class="divider">or custom</div>
+          <div class="color-grid">
+            <div class="color-field">
+              <label>Foreground</label>
+              <div class="color-swatch-btn" onclick="document.getElementById('fg-color').click()">
+                <div class="swatch" id="fg-swatch" style="background:#000"></div>
+                <input type="color" id="fg-color" value="#000000" oninput="syncColor('fg')">
+                <span id="fg-label">#000000</span>
+              </div>
+            </div>
+            <div class="color-field">
+              <label>Background</label>
+              <div class="color-swatch-btn" onclick="document.getElementById('bg-color').click()">
+                <div class="swatch" id="bg-swatch" style="background:#fff;border-color:#ddd"></div>
+                <input type="color" id="bg-color" value="#ffffff" oninput="syncColor('bg')">
+                <span id="bg-label">#ffffff</span>
+              </div>
+            </div>
+          </div>
+          <div class="divider">Corner Style</div>
+          <label style="font-size:.7rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--ink-light);margin-bottom:10px;display:block;">Eye / Corner Shape</label>
+          <div class="corner-grid" id="corner-grid"></div>
+        </div>
+
+        <!-- TAB: LOGO -->
+        <div class="tab-panel" id="tab-logo">
+          <div class="field">
+            <label>Upload Your Logo</label>
+            <div class="upload-zone">
+              <input type="file" id="logo-file" accept="image/*" onchange="handleLogoUpload(event)">
+              <div class="up-icon">📎</div>
+              <p id="upload-text">Drop your logo or click to browse</p>
+              <p class="up-label">PNG, JPG, SVG · transparent bg recommended</p>
+            </div>
+          </div>
+          <div id="logo-controls" style="display:none">
+            <div class="logo-size-row">
+              <label>Logo Size</label>
+              <input type="range" id="logo-size" min="10" max="35" value="20" oninput="document.getElementById('logo-size-val').textContent=this.value+'%'">
+              <span id="logo-size-val">20%</span>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:8px;align-items:center;">
+              <input type="checkbox" id="logo-bg" checked style="accent-color:var(--accent)">
+              <label style="font-size:.82rem;color:var(--ink-light);cursor:pointer;" for="logo-bg">Add white background behind logo</label>
+            </div>
+            <div style="margin-top:12px;">
+              <button class="btn-outline" style="width:100%;color:var(--accent);border-color:var(--accent);" onclick="removeLogo()">✕ Remove Logo</button>
+            </div>
+          </div>
+          <div class="divider">Tips</div>
+          <p style="font-size:.78rem;color:var(--ink-light);line-height:1.7;">
+            • Use <strong>High</strong> error correction (Content tab) when adding a logo<br>
+            • Square logos work best<br>
+            • Transparent PNG gives the cleanest result<br>
+            • Keep logo size under 30% for best scannability
+          </p>
+        </div>
+
+        <!-- TAB: FRAME -->
+        <div class="tab-panel" id="tab-frame">
+          <label style="font-size:.7rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--ink-light);margin-bottom:10px;display:block;">Frame Style</label>
+          <div class="frame-grid" id="frame-grid"></div>
+          <div class="frame-label-field" id="frame-label-wrap" style="display:none">
+            <label>Frame Label Text</label>
+            <input type="text" id="frame-label-text" placeholder="SCAN ME" maxlength="24" oninput="liveUpdate()" />
+          </div>
+          <div class="divider" style="margin-top:16px;"></div>
+          <div class="field">
+            <label>Frame Color</label>
+            <div class="color-swatch-btn" onclick="document.getElementById('frame-color').click()" style="width:auto;display:inline-flex;">
+              <div class="swatch" id="frame-color-swatch" style="background:#222222"></div>
+              <input type="color" id="frame-color" value="#222222" oninput="syncFrameColor()">
+              <span id="frame-color-label">#222222</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /card-body -->
+
+      <div style="padding:0 24px 24px;">
+        <button class="btn-primary" onclick="generateQR()">Generate QR Code →</button>
+      </div>
+    </div><!-- /card -->
+
+    <!-- SIDE AD -->
+    <div class="ad-side-wrap">
+      <div class="ad-label">Advertisement</div>
+      <!-- ✅ REPLACE WITH YOUR GOOGLE ADSENSE RECTANGLE CODE -->
+      <div class="ad-slot ad-slot-300" style="margin:0 auto;display:flex;align-items:center;justify-content:center;">Google AdSense 300×250</div>
+    </div>
+  </div>
+
+  <!-- RIGHT: OUTPUT -->
+  <div class="output-card">
+    <div class="card">
+      <div class="card-header">
+        <div class="icon">◻</div>
+        <h2>Your QR Code</h2>
+      </div>
+
+      <div class="qr-stage" id="qr-stage">
+        <div class="placeholder-state" id="placeholder">
+          <div class="ph-icon">◻</div>
+          <p>Fill in the form and<br>click Generate</p>
+        </div>
+        <div id="qr-result" style="display:none" class="animate-in">
+          <!-- Dynamically wrapped with frame classes -->
+          <div id="frame-wrapper">
+            <div class="qr-outer" id="qr-outer">
+              <div class="qr-frame-inner" id="qr-frame-inner">
+                <div id="qr-code"></div>
+                <img id="logo-overlay">
+              </div>
+              <div class="frame-label-overlay" id="frame-label-overlay" style="display:none">SCAN ME</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qr-actions" id="qr-actions" style="display:none">
+        <button class="btn-outline" onclick="downloadPNG()">⬇ PNG</button>
+        <button class="btn-outline" onclick="downloadSVG()">⬇ SVG</button>
+        <button class="btn-outline" onclick="copyToClipboard()">📋 Copy</button>
+      </div>
+      <div class="qr-meta" id="qr-meta" style="display:none">
+        <span class="qr-meta-text">Size: <strong id="meta-size">—</strong></span>
+        <span class="qr-meta-text">EC: <strong id="meta-ec">—</strong></span>
+        <span class="qr-meta-text" style="color:var(--accent);font-weight:600">✓ Ready</span>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;padding:22px;background:var(--white);border:1px solid var(--border);">
+      <p style="font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;margin-bottom:8px;">Why QRcraft?</p>
+      <p style="font-size:.78rem;color:var(--ink-light);line-height:1.8;font-weight:300;">
+        QRcraft is a 100% free, browser-based QR code generator. All processing happens on your device — nothing is uploaded. Perfect for businesses, restaurants, freelancers, events, and anyone who needs custom QR codes without subscriptions or hidden fees.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- SEO FOOTER CONTENT -->
+<div style="position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 24px 40px;">
+  <div style="background:var(--white);border:1px solid var(--border);padding:28px;">
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:12px;">Free QR Code Generator – No Sign Up Required</h2>
+    <p style="font-size:.82rem;color:var(--ink-light);line-height:1.9;font-weight:300;">
+      QRcraft lets you generate free QR codes for websites, WhatsApp, email, phone numbers, WiFi networks, and contact cards. Customize your QR code with brand colors, embed your logo, and choose from multiple frame styles. Download in high-resolution PNG or SVG format — suitable for print, digital, business cards, menus, flyers, and packaging. No watermarks, no subscriptions, no account needed.
+    </p>
+    <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:6px;">
+      <span style="font-size:.68rem;padding:3px 10px;border:1px solid var(--border);color:var(--ink-light);background:var(--surface);">free qr code generator</span>
+      <span style="font-size:.68rem;padding:3px 10px;border:1px solid var(--border);color:var(--ink-light);background:var(--surface);">qr code with logo</span>
+      <span style="font-size:.68rem;padding:3px 10px;border:1px solid var(--border);color:var(--ink-light);background:var(--surface);">custom qr code maker</span>
+      <span style="font-size:.68rem;padding:3px 10px;border:1px solid var(--border);color:var(--ink-light);background:var(--surface);">qr code generator online free</span>
+      <span style="font-size:.68rem;padding:3px 10px;border:1px solid var(--border);color:var(--ink-light);background:var(--surface);">qr code for whatsapp</span>
+      <span style="font-size:.68rem;padding:3px 10px;border:1px solid var(--border);color:var(--ink-light);background:var(--surface);">qr code download png</span>
+      <span style="font-size:.68rem;padding:3px 10px;border:1px solid var(--border);color:var(--ink-light);background:var(--surface);">qr code for business card</span>
+      <span style="font-size:.68rem;padding:3px 10px;border:1px solid var(--border);color:var(--ink-light);background:var(--surface);">qr code wifi</span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">QR<span>craft</span></div>
+  <p>Free QR Code Generator · Works in any browser · No data stored · No watermarks</p>
+  <p style="font-size:.68rem;color:#bbb;">© 2025 QRcraft</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STATE ──
+let logoDataUrl = null;
+let selectedFrame = 'none';
+let selectedCorner = 'square';
+let frameColor = '#222222';
+
+// ── COLOR PRESETS ──
+const presets = [
+  {fg:'#000000',bg:'#ffffff',label:'Classic'},
+  {fg:'#c0392b',bg:'#ffffff',label:'Red'},
+  {fg:'#1a5276',bg:'#ffffff',label:'Navy'},
+  {fg:'#196f3d',bg:'#ffffff',label:'Forest'},
+  {fg:'#7d3c98',bg:'#ffffff',label:'Purple'},
+  {fg:'#e67e22',bg:'#ffffff',label:'Orange'},
+  {fg:'#ffffff',bg:'#000000',label:'Invert'},
+  {fg:'#1a1714',bg:'#f3f0eb',label:'Warm'},
+];
+
+// ── FRAMES ──
+const frames = [
+  {id:'none',   label:'None'},
+  {id:'simple', label:'Border'},
+  {id:'rounded',label:'Rounded'},
+  {id:'shadow', label:'Shadow'},
+  {id:'banner', label:'+ Label'},
+  {id:'dots',   label:'Dotted'},
+];
+
+// ── CORNERS ──
+const corners = [
+  {id:'square', label:'Square'},
+  {id:'rounded',label:'Round'},
+  {id:'dot',    label:'Dot'},
+  {id:'extra',  label:'Bold'},
+];
+
+// ── TYPE CONFIG ──
+const typeConfig = {
+  url:      {label:'Website URL',        placeholder:'https://yourwebsite.com'},
+  whatsapp: {label:'WhatsApp Number',    placeholder:'+91 98765 43210'},
+  email:    {label:'Email Address',      placeholder:'hello@example.com'},
+  text:     {label:'Your Message',       placeholder:'Type anything here...'},
+  phone:    {label:'Phone Number',       placeholder:'+91 98765 43210'},
+  wifi:     {label:'WiFi Network Name',  placeholder:'MyWiFiNetwork'},
+  vcard:    {label:'Your Name',          placeholder:'John Smith'},
+};
+
+// ── INIT ──
+(function init() {
+  // Presets
+  const row = document.getElementById('presets-row');
+  presets.forEach((p,i) => {
+    const d = document.createElement('div');
+    d.className = 'preset-dot' + (i===0?' selected':'');
+    d.style.cssText = `background:${p.fg};border-color:${p.bg === '#ffffff' ? '#ddd' : p.fg};outline:2px solid ${p.bg};`;
+    d.title = p.label;
+    d.onclick = () => {
+      document.getElementById('fg-color').value = p.fg;
+      document.getElementById('bg-color').value = p.bg;
+      syncColor('fg'); syncColor('bg');
+      document.querySelectorAll('.preset-dot').forEach(x=>x.classList.remove('selected'));
+      d.classList.add('selected');
+    };
+    row.appendChild(d);
+  });
+
+  // Frames
+  const fg = document.getElementById('frame-grid');
+  frames.forEach(f => {
+    const d = document.createElement('div');
+    d.className = 'frame-opt' + (f.id==='none'?' selected':'');
+    d.dataset.id = f.id;
+    d.innerHTML = `<div class="frame-preview"><div class="fp-inner"></div></div><span>${f.label}</span>`;
+    d.onclick = () => {
+      document.querySelectorAll('.frame-opt').forEach(x=>x.classList.remove('selected'));
+      d.classList.add('selected');
+      selectedFrame = f.id;
+      document.getElementById('frame-label-wrap').style.display = f.id==='banner' ? 'block':'none';
+      liveUpdate();
+    };
+    fg.appendChild(d);
+  });
+
+  // Corners
+  const cg = document.getElementById('corner-grid');
+  corners.forEach(c => {
+    const d = document.createElement('div');
+    d.className = 'corner-opt' + (c.id==='square'?' selected':'');
+    d.dataset.id = c.id;
+    const shapes = {
+      square: `<svg width="32" height="32"><rect x="4" y="4" width="10" height="10" fill="none" stroke="#333" stroke-width="2.5"/><rect x="18" y="4" width="10" height="10" fill="none" stroke="#333" stroke-width="2.5"/><rect x="4" y="18" width="10" height="10" fill="none" stroke="#333" stroke-width="2.5"/></svg>`,
+      rounded:`<svg width="32" height="32"><rect x="4" y="4" width="10" height="10" rx="3" fill="none" stroke="#333" stroke-width="2.5"/><rect x="18" y="4" width="10" height="10" rx="3" fill="none" stroke="#333" stroke-width="2.5"/><rect x="4" y="18" width="10" height="10" rx="3" fill="none" stroke="#333" stroke-width="2.5"/></svg>`,
+      dot:    `<svg width="32" height="32"><circle cx="9" cy="9" r="5" fill="none" stroke="#333" stroke-width="2.5"/><circle cx="23" cy="9" r="5" fill="none" stroke="#333" stroke-width="2.5"/><circle cx="9" cy="23" r="5" fill="none" stroke="#333" stroke-width="2.5"/></svg>`,
+      extra:  `<svg width="32" height="32"><rect x="3" y="3" width="12" height="12" fill="none" stroke="#333" stroke-width="3.5"/><rect x="17" y="3" width="12" height="12" fill="none" stroke="#333" stroke-width="3.5"/><rect x="3" y="17" width="12" height="12" fill="none" stroke="#333" stroke-width="3.5"/></svg>`,
+    };
+    d.innerHTML = shapes[c.id] + `<span>${c.label}</span>`;
+    d.onclick = () => {
+      document.querySelectorAll('.corner-opt').forEach(x=>x.classList.remove('selected'));
+      d.classList.add('selected');
+      selectedCorner = c.id;
+    };
+    cg.appendChild(d);
+  });
+})();
+
+// ── TABS ──
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── TYPE ──
+function updateType() {
+  const type = document.getElementById('qr-type').value;
+  document.getElementById('input-label').textContent = typeConfig[type].label;
+  document.getElementById('qr-input').placeholder = typeConfig[type].placeholder;
+  document.getElementById('wifi-extras').style.display = type==='wifi'?'block':'none';
+  document.getElementById('vcard-extras').style.display = type==='vcard'?'block':'none';
+}
+
+// ── COLORS ──
+function syncColor(which) {
+  const val = document.getElementById(which+'-color').value;
+  document.getElementById(which+'-swatch').style.background = val;
+  document.getElementById(which+'-label').textContent = val;
+}
+function syncFrameColor() {
+  frameColor = document.getElementById('frame-color').value;
+  document.getElementById('frame-color-swatch').style.background = frameColor;
+  document.getElementById('frame-color-label').textContent = frameColor;
+  liveUpdate();
+}
+
+// ── LOGO ──
+function handleLogoUpload(e) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    logoDataUrl = ev.target.result;
+    document.getElementById('upload-text').textContent = '✓ ' + file.name;
+    document.getElementById('logo-controls').style.display = 'block';
+    showToast('Logo uploaded');
+  };
+  reader.readAsDataURL(file);
+}
+function removeLogo() {
+  logoDataUrl = null;
+  document.getElementById('logo-file').value = '';
+  document.getElementById('upload-text').textContent = 'Drop your logo or click to browse';
+  document.getElementById('logo-controls').style.display = 'none';
+  document.getElementById('logo-overlay').style.display = 'none';
+  showToast('Logo removed');
+}
+
+// ── CONTENT BUILDER ──
+function buildContent() {
+  const type = document.getElementById('qr-type').value;
+  const val = document.getElementById('qr-input').value.trim();
+  if (!val && type !== 'vcard') return null;
+  switch(type) {
+    case 'url':      return val.startsWith('http') ? val : 'https://'+val;
+    case 'whatsapp': return 'https://wa.me/'+val.replace(/[^0-9]/g,'');
+    case 'email':    return 'mailto:'+val;
+    case 'phone':    return 'tel:'+val.replace(/\s/g,'');
+    case 'wifi':     return `WIFI:T:${document.getElementById('wifi-sec').value};S:${val};P:${document.getElementById('wifi-pass').value};;`;
+    case 'vcard': {
+      const n=document.getElementById('vc-name').value.trim();
+      if(!n) return null;
+      return `BEGIN:VCARD\nVERSION:3.0\nFN:${n}\nTEL:${document.getElementById('vc-phone').value}\nEMAIL:${document.getElementById('vc-email').value}\nORG:${document.getElementById('vc-company').value}\nEND:VCARD`;
+    }
+    default: return val;
+  }
+}
+
+// ── EC MAP ──
+const ecMap = {L:QRCode.CorrectLevel.L, M:QRCode.CorrectLevel.M, H:QRCode.CorrectLevel.H};
+
+// ── GENERATE ──
+function generateQR() {
+  const content = buildContent();
+  if (!content) { showToast('Please enter your content first'); return; }
+
+  const size = parseInt(document.getElementById('qr-size').value);
+  const fg   = document.getElementById('fg-color').value;
+  const bg   = document.getElementById('bg-color').value;
+  const ec   = document.getElementById('qr-ec').value;
+
+  const container = document.getElementById('qr-code');
+  container.innerHTML = '';
+
+  new QRCode(container, {
+    text: content, width: size, height: size,
+    colorDark: fg, colorLight: bg,
+    correctLevel: ecMap[ec]
+  });
+
+  // Apply frame
+  applyFrame(size);
+
+  // Logo overlay
+  setTimeout(() => applyLogo(size), 120);
+
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('qr-result').style.display = 'block';
+  document.getElementById('qr-actions').style.display = 'flex';
+  document.getElementById('qr-meta').style.display = 'flex';
+  document.getElementById('meta-size').textContent = size+'×'+size+' px';
+  document.getElementById('meta-ec').textContent = {L:'Low',M:'Medium',H:'High'}[ec];
+  showToast('QR Code generated!');
+}
+
+function applyFrame(size) {
+  const outer = document.getElementById('qr-outer');
+  const labelOverlay = document.getElementById('frame-label-overlay');
+  
+  // Reset
+  outer.style.cssText = '';
+  labelOverlay.style.display = 'none';
+  
+  const fc = frameColor;
+
+  if (selectedFrame === 'none') {
+    // nothing
+  } else if (selectedFrame === 'simple') {
+    outer.style.cssText = `border:3px solid ${fc};padding:6px;display:inline-block;`;
+  } else if (selectedFrame === 'rounded') {
+    outer.style.cssText = `border:3px solid ${fc};border-radius:16px;padding:8px;overflow:hidden;display:inline-block;`;
+  } else if (selectedFrame === 'shadow') {
+    outer.style.cssText = `box-shadow:0 8px 32px rgba(0,0,0,.22);padding:8px;background:white;display:inline-block;`;
+  } else if (selectedFrame === 'banner') {
+    const labelText = document.getElementById('frame-label-text').value.trim() || 'SCAN ME';
+    outer.style.cssText = `border:3px solid ${fc};padding:6px 6px 38px;display:inline-block;position:relative;`;
+    labelOverlay.style.display = 'block';
+    labelOverlay.style.background = fc;
+    labelOverlay.textContent = labelText;
+  } else if (selectedFrame === 'dots') {
+    outer.style.cssText = `border:4px dotted ${fc};padding:8px;display:inline-block;`;
+  }
+}
+
+function applyLogo(size) {
+  const overlay = document.getElementById('logo-overlay');
+  if (logoDataUrl) {
+    const pct = parseInt(document.getElementById('logo-size').value) / 100;
+    const logoSize = Math.round(size * pct);
+    overlay.src = logoDataUrl;
+    overlay.style.display = 'block';
+    overlay.style.width = logoSize + 'px';
+    overlay.style.height = logoSize + 'px';
+    const hasBg = document.getElementById('logo-bg').checked;
+    overlay.style.background = hasBg ? 'white' : 'transparent';
+    overlay.style.padding = hasBg ? '4px' : '0';
+    overlay.style.borderRadius = '4px';
+  } else {
+    overlay.style.display = 'none';
+  }
+}
+
+function liveUpdate() {
+  if (document.getElementById('qr-result').style.display !== 'none') {
+    const size = parseInt(document.getElementById('qr-size').value);
+    applyFrame(size);
+    setTimeout(() => applyLogo(size), 50);
+    const lo = document.getElementById('frame-label-overlay');
+    if (selectedFrame === 'banner' && lo) {
+      lo.textContent = document.getElementById('frame-label-text').value || 'SCAN ME';
+    }
+  }
+}
+
+// ── DOWNLOAD ──
+function getCanvas() { return document.querySelector('#qr-code canvas'); }
+
+function compositeCanvas(cb) {
+  const canvas = getCanvas(); if (!canvas) return;
+  const size = canvas.width;
+  const fc = document.createElement('canvas');
+
+  let padding = 0;
+  let borderSize = 0;
+  let bottomPad = 0;
+  
+  if (selectedFrame === 'simple' || selectedFrame === 'dots') { borderSize=3; padding=6+borderSize; }
+  else if (selectedFrame === 'rounded') { borderSize=3; padding=8+borderSize; }
+  else if (selectedFrame === 'shadow') { padding=8; }
+  else if (selectedFrame === 'banner') { borderSize=3; padding=6+borderSize; bottomPad=38; }
+
+  fc.width  = size + padding*2;
+  fc.height = size + padding*2 + bottomPad;
+  const ctx = fc.getContext('2d');
+
+  // Background
+  ctx.fillStyle = document.getElementById('bg-color').value;
+  ctx.fillRect(0,0,fc.width,fc.height);
+
+  // Frame
+  const fc2 = frameColor;
+  if (selectedFrame === 'simple') {
+    ctx.strokeStyle=fc2; ctx.lineWidth=borderSize*2;
+    ctx.strokeRect(borderSize,borderSize,fc.width-borderSize*2,fc.height-borderSize*2-bottomPad);
+  } else if (selectedFrame === 'rounded') {
+    ctx.strokeStyle=fc2; ctx.lineWidth=borderSize*2;
+    roundRect(ctx,borderSize,borderSize,fc.width-borderSize*2,fc.height-borderSize*2,14);
+    ctx.stroke();
+  } else if (selectedFrame === 'shadow') {
+    ctx.shadowColor='rgba(0,0,0,.2)'; ctx.shadowBlur=20; ctx.shadowOffsetY=6;
+    ctx.fillStyle='white'; ctx.fillRect(0,0,fc.width,fc.height);
+    ctx.shadowColor='transparent';
+  } else if (selectedFrame === 'dots') {
+    ctx.strokeStyle=fc2; ctx.lineWidth=4; ctx.setLineDash([6,6]);
+    ctx.strokeRect(4,4,fc.width-8,fc.height-8);
+    ctx.setLineDash([]);
+  } else if (selectedFrame === 'banner') {
+    ctx.strokeStyle=fc2; ctx.lineWidth=borderSize*2;
+    ctx.strokeRect(borderSize,borderSize,fc.width-borderSize*2,fc.height-borderSize*2);
+    // Label bar
+    ctx.fillStyle=fc2;
+    ctx.fillRect(borderSize,fc.height-bottomPad-borderSize,fc.width-borderSize*2,bottomPad+borderSize);
+    ctx.fillStyle='white';
+    ctx.font = 'bold 13px DM Sans, sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText((document.getElementById('frame-label-text').value||'SCAN ME').toUpperCase(), fc.width/2, fc.height-bottomPad/2);
+  }
+
+  // QR
+  ctx.drawImage(canvas, padding, padding);
+
+  // Logo
+  if (logoDataUrl) {
+    const pct = parseInt(document.getElementById('logo-size').value)/100;
+    const lw = Math.round(size*pct), lh = lw;
+    const lx = padding+(size-lw)/2, ly = padding+(size-lh)/2;
+    if (document.getElementById('logo-bg').checked) {
+      ctx.fillStyle='white'; ctx.fillRect(lx-5,ly-5,lw+10,lh+10);
+    }
+    const logo = new Image();
+    logo.onload = () => { ctx.drawImage(logo,lx,ly,lw,lh); cb(fc); };
+    logo.src = logoDataUrl;
+  } else { cb(fc); }
+}
+
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);}
+
+function downloadPNG() {
+  compositeCanvas(fc => { trigger(fc.toDataURL('image/png'),'qrcraft.png'); showToast('PNG downloaded'); });
+}
+
+function downloadSVG() {
+  const canvas = getCanvas(); if (!canvas) return;
+  const size = canvas.width;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${size}" height="${size}"><image href="${canvas.toDataURL('image/png')}" width="${size}" height="${size}"/></svg>`;
+  trigger(URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'})),'qrcraft.svg');
+  showToast('SVG downloaded');
+}
+
+function copyToClipboard() {
+  compositeCanvas(fc => {
+    fc.toBlob(blob => {
+      try { navigator.clipboard.write([new ClipboardItem({'image/png':blob})]); showToast('Copied to clipboard'); }
+      catch { showToast('Copy not supported — use Download instead'); }
+    });
+  });
+}
+
+function trigger(url,name){const a=document.createElement('a');a.href=url;a.download=name;a.click();}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+</script>
+</body>
+</html>

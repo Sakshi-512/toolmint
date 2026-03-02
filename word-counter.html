@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Word Counter & Character Counter Online | ToolMint</title>
+<meta name="description" content="Count words, characters, sentences, paragraphs and reading time instantly. Free online word counter for essays, blogs, tweets, Instagram captions and more. No signup.">
+<meta name="keywords" content="word counter, character counter, word count online, character count, word counter for essay, twitter character counter, instagram caption counter, free word counter">
+<link rel="canonical" href="https://toolmint.vercel.app/word-counter">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf8f5;--white:#fff;--ink:#1a1714;--ink-light:#6b6560;
+  --border:#e8e3dc;--accent:#c0392b;--accent-dark:#96281b;
+  --accent-light:#fdf0ee;--surface:#f3f0eb;
+  --shadow:0 2px 20px rgba(26,23,20,.08);--shadow-lg:0 8px 40px rgba(26,23,20,.14);
+  --green:#2e7d52;--green-light:#edf7f1;
+  --blue:#1a5276;--blue-light:#eaf2ff;
+  --purple:#6c3483;--purple-light:#f5eef8;
+  --orange:#b35a00;--orange-light:#fff4e6;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;min-height:100vh;font-size:15px;line-height:1.6;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231a1714' fill-opacity='0.018'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none;z-index:0;}
+
+/* HEADER */
+header{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-mark{width:30px;height:30px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:.85rem;color:white;}
+.logo-text{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:var(--ink);letter-spacing:-.5px;}
+.logo-text span{color:var(--accent);}
+.back-link{font-size:.75rem;color:var(--ink-light);text-decoration:none;border:1px solid var(--border);padding:6px 14px;border-radius:100px;transition:all .2s;background:var(--surface);font-weight:500;}
+.back-link:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+
+/* AD */
+.ad-leaderboard{position:relative;z-index:5;background:var(--white);border-bottom:1px solid var(--border);padding:14px;text-align:center;}
+.ad-slot{display:inline-flex;align-items:center;justify-content:center;background:var(--surface);border:1px dashed #ccc;color:#aaa;font-size:.7rem;letter-spacing:1px;font-weight:500;text-transform:uppercase;}
+.ad-728{width:min(728px,100%);height:90px;}
+.ad-300{width:100%;height:250px;}
+
+/* HERO */
+.page-hero{position:relative;z-index:1;padding:40px 48px 28px;border-bottom:1px solid var(--border);background:var(--white);}
+.breadcrumb{font-size:.72rem;color:var(--ink-light);margin-bottom:12px;}
+.breadcrumb a{color:var(--accent);text-decoration:none;font-weight:500;}
+.page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;letter-spacing:-1px;margin-bottom:8px;}
+.page-hero h1 em{font-style:italic;color:var(--accent);}
+.page-hero p{color:var(--ink-light);font-size:.88rem;font-weight:300;}
+
+/* FEATURES */
+.features{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:16px 24px;}
+.features-inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.fi{display:flex;align-items:center;gap:8px;padding:6px 14px;background:var(--bg);border:1px solid var(--border);}
+.fi span{font-size:.76rem;font-weight:500;color:var(--ink);}
+
+/* LAYOUT */
+.main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:32px 24px 80px;display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start;}
+@media(max-width:900px){.main{grid-template-columns:1fr;}header{padding:0 20px;}.page-hero{padding:28px 20px;}}
+
+/* STATS BAR — live counters at top */
+.stats-bar{background:var(--white);border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:16px;display:grid;grid-template-columns:repeat(6,1fr);}
+.stat-cell{padding:16px 12px;text-align:center;border-right:1px solid var(--border);position:relative;}
+.stat-cell:last-child{border-right:none;}
+.stat-cell .sv{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--accent);display:block;line-height:1;}
+.stat-cell .sl{font-size:.62rem;color:var(--ink-light);text-transform:uppercase;letter-spacing:.8px;margin-top:5px;font-weight:500;}
+
+/* PLATFORM LIMITS */
+.platform-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.plat-btn{padding:6px 14px;border:1px solid var(--border);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;color:var(--ink-light);transition:all .2s;border-radius:100px;}
+.plat-btn:hover{border-color:var(--accent);color:var(--accent);}
+.plat-btn.active{background:var(--accent);color:white;border-color:var(--accent);}
+
+/* TEXTAREA */
+.editor-wrap{position:relative;}
+.main-textarea{width:100%;min-height:340px;background:var(--white);border:1px solid var(--border);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.95rem;padding:20px;outline:none;resize:vertical;line-height:1.8;transition:border-color .2s;box-shadow:var(--shadow);}
+.main-textarea:focus{border-color:var(--accent);}
+.main-textarea::placeholder{color:#bbb;}
+
+/* LIMIT INDICATOR */
+.limit-bar-wrap{margin-top:8px;display:none;}
+.limit-bar-wrap.visible{display:block;}
+.limit-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.limit-info span{font-size:.75rem;color:var(--ink-light);}
+.limit-info .limit-count{font-weight:700;font-size:.82rem;}
+.limit-info .limit-count.over{color:var(--accent);}
+.limit-track{height:5px;background:var(--border);border-radius:100px;overflow:hidden;}
+.limit-fill{height:100%;border-radius:100px;transition:width .2s,background .2s;}
+
+/* TOOLBAR */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.tool-btn{padding:7px 14px;border:1px solid var(--border);background:var(--white);font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;color:var(--ink-light);transition:all .2s;box-shadow:var(--shadow);}
+.tool-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+.tool-btn.danger:hover{border-color:#e74c3c;color:#e74c3c;background:#fdf0ee;}
+
+/* KEYWORD DENSITY */
+.card{background:var(--white);border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:16px;}
+.card-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.card-header .ic{width:28px;height:28px;background:var(--accent-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;}
+.card-header h2{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;}
+.card-body{padding:18px 20px;}
+.kw-table{width:100%;border-collapse:collapse;}
+.kw-table th{font-size:.62rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--ink-light);padding:6px 8px;text-align:left;border-bottom:1px solid var(--border);}
+.kw-table td{padding:7px 8px;font-size:.8rem;border-bottom:1px solid var(--border);color:var(--ink-light);}
+.kw-table td:first-child{font-weight:600;color:var(--ink);}
+.kw-bar{height:4px;background:var(--border);border-radius:100px;overflow:hidden;margin-top:3px;}
+.kw-fill{height:100%;background:var(--accent);border-radius:100px;}
+.kw-empty{font-size:.8rem;color:var(--ink-light);font-style:italic;text-align:center;padding:16px 0;}
+
+/* RIGHT SIDEBAR */
+.sidebar{}
+.info-card{background:var(--white);border:1px solid var(--border);box-shadow:var(--shadow);padding:20px;margin-bottom:16px;}
+.info-card h3{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;margin-bottom:14px;}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem;}
+.info-row:last-child{border-bottom:none;}
+.info-row .ir-label{color:var(--ink-light);}
+.info-row .ir-val{font-weight:600;color:var(--ink);}
+
+/* PLATFORM CARDS */
+.plat-cards{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:16px;}
+.plat-card{background:var(--white);border:1px solid var(--border);padding:14px 16px;box-shadow:var(--shadow);}
+.plat-card .pc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.plat-card .pc-name{font-size:.78rem;font-weight:700;}
+.plat-card .pc-count{font-size:.75rem;font-weight:600;}
+.plat-card .pc-count.over{color:var(--accent);}
+.plat-card .pc-count.ok{color:var(--green);}
+.plat-track{height:4px;background:var(--border);border-radius:100px;overflow:hidden;}
+.plat-fill{height:100%;border-radius:100px;transition:width .3s,background .3s;}
+
+/* READING LEVEL */
+.reading-badge{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--border);background:var(--surface);font-size:.8rem;font-weight:600;margin-bottom:8px;width:100%;}
+.rb-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+/* FIND & REPLACE */
+.find-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.find-row input{background:var(--bg);border:1px solid var(--border);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.82rem;padding:8px 10px;outline:none;border-radius:2px;transition:border-color .2s;}
+.find-row input:focus{border-color:var(--accent);}
+.btn-sm{padding:8px 14px;background:var(--accent);color:white;border:none;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;border-radius:2px;transition:background .2s;}
+.btn-sm:hover{background:var(--accent-dark);}
+.btn-sm.outline{background:transparent;color:var(--ink);border:1px solid var(--border);}
+.btn-sm.outline:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+.find-actions{display:flex;gap:8px;}
+
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:white;padding:11px 22px;border-radius:100px;font-size:.82rem;font-weight:500;opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:999;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:22px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;background:var(--white);}
+footer p{font-size:.72rem;color:var(--ink-light);}
+footer a{color:var(--accent);text-decoration:none;font-weight:500;}
+
+@media(max-width:768px){
+  .stats-bar{grid-template-columns:repeat(3,1fr);}
+  .stats-bar .stat-cell:nth-child(3){border-right:none;}
+  .stats-bar .stat-cell:nth-child(4){border-top:1px solid var(--border);}
+  footer{padding:20px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo"><div class="logo-mark">T</div><div class="logo-text">Tool<span>Mint</span></div></a>
+  <a href="index.html" class="back-link">← All Tools</a>
+</header>
+
+<!-- TOP AD -->
+<div class="ad-leaderboard">
+  <!-- ✅ PASTE GOOGLE ADSENSE 728×90 HERE -->
+  <div class="ad-slot ad-728">Advertisement · Google AdSense 728×90</div>
+</div>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">ToolMint</a> → Word Counter</div>
+  <h1>Free <em>Word Counter</em> &amp; Character Counter</h1>
+  <p>Count words, characters, sentences, paragraphs & reading time instantly · Check platform limits · Find & Replace · 100% free</p>
+</div>
+
+<div class="features">
+  <div class="features-inner">
+    <div class="fi"><span>📝</span><span>Words & Characters</span></div>
+    <div class="fi"><span>⏱</span><span>Reading Time</span></div>
+    <div class="fi"><span>🐦</span><span>Twitter / X Limit</span></div>
+    <div class="fi"><span>📸</span><span>Instagram Limit</span></div>
+    <div class="fi"><span>🔍</span><span>Find & Replace</span></div>
+    <div class="fi"><span>📊</span><span>Keyword Density</span></div>
+    <div class="fi"><span>🎓</span><span>Reading Level</span></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- LEFT: EDITOR -->
+  <div>
+    <!-- LIVE STATS BAR -->
+    <div class="stats-bar">
+      <div class="stat-cell"><span class="sv" id="s-words">0</span><span class="sl">Words</span></div>
+      <div class="stat-cell"><span class="sv" id="s-chars">0</span><span class="sl">Characters</span></div>
+      <div class="stat-cell"><span class="sv" id="s-chars-ns">0</span><span class="sl">No Spaces</span></div>
+      <div class="stat-cell"><span class="sv" id="s-sentences">0</span><span class="sl">Sentences</span></div>
+      <div class="stat-cell"><span class="sv" id="s-paras">0</span><span class="sl">Paragraphs</span></div>
+      <div class="stat-cell"><span class="sv" id="s-read">0m</span><span class="sl">Read Time</span></div>
+    </div>
+
+    <!-- PLATFORM LIMIT BUTTONS -->
+    <div style="margin-bottom:10px;">
+      <p style="font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--ink-light);margin-bottom:8px;">Check Platform Limit</p>
+      <div class="platform-bar">
+        <button class="plat-btn" onclick="setPlatform(0)">None</button>
+        <button class="plat-btn" onclick="setPlatform(280)">𝕏 Twitter (280)</button>
+        <button class="plat-btn" onclick="setPlatform(2200)">📸 Instagram (2,200)</button>
+        <button class="plat-btn" onclick="setPlatform(63206)">📘 Facebook (63,206)</button>
+        <button class="plat-btn" onclick="setPlatform(100)">💼 LinkedIn Headline (100)</button>
+        <button class="plat-btn" onclick="setPlatform(700)">💼 LinkedIn Post (700)</button>
+        <button class="plat-btn" onclick="setPlatform(160)">📱 WhatsApp Status (160)</button>
+        <button class="plat-btn" onclick="setPlatform(500)">📧 Email Subject (500)</button>
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <button class="tool-btn" onclick="copyText()">📋 Copy Text</button>
+      <button class="tool-btn" onclick="downloadText()">⬇ Download .txt</button>
+      <button class="tool-btn" onclick="toUpperCase()">AA UPPERCASE</button>
+      <button class="tool-btn" onclick="toLowerCase()">aa lowercase</button>
+      <button class="tool-btn" onclick="toTitleCase()">Aa Title Case</button>
+      <button class="tool-btn" onclick="removeDuplicates()">🧹 Remove Duplicates</button>
+      <button class="tool-btn" onclick="removeExtraSpaces()">✂ Remove Extra Spaces</button>
+      <button class="tool-btn danger" onclick="clearAll()">🗑 Clear</button>
+    </div>
+
+    <!-- TEXTAREA -->
+    <div class="editor-wrap">
+      <textarea class="main-textarea" id="main-textarea" placeholder="Start typing or paste your text here...
+
+Word Counter will instantly count your words, characters, sentences, paragraphs and estimate reading time.
+
+Use the platform buttons above to check if your text fits Twitter, Instagram, LinkedIn and more." oninput="analyze()"></textarea>
+    </div>
+
+    <!-- LIMIT BAR -->
+    <div class="limit-bar-wrap" id="limit-bar-wrap">
+      <div class="limit-info">
+        <span id="limit-platform-name">Platform</span>
+        <span class="limit-count" id="limit-count-text">0 / 0</span>
+      </div>
+      <div class="limit-track"><div class="limit-fill" id="limit-fill"></div></div>
+    </div>
+
+    <!-- FIND & REPLACE -->
+    <div class="card" style="margin-top:16px;">
+      <div class="card-header"><div class="ic">🔍</div><h2>Find & Replace</h2></div>
+      <div class="card-body">
+        <div class="find-row">
+          <input type="text" id="find-input" placeholder="Find...">
+          <input type="text" id="replace-input" placeholder="Replace with...">
+        </div>
+        <div class="find-actions">
+          <button class="btn-sm" onclick="findReplace()">Replace All</button>
+          <button class="btn-sm outline" onclick="highlightFind()">Highlight</button>
+          <span id="find-result" style="font-size:.75rem;color:var(--ink-light);align-self:center;margin-left:8px;"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- KEYWORD DENSITY -->
+    <div class="card">
+      <div class="card-header"><div class="ic">📊</div><h2>Keyword Density</h2></div>
+      <div class="card-body">
+        <table class="kw-table">
+          <thead><tr><th>Keyword</th><th>Count</th><th>Density</th><th style="width:30%">Frequency</th></tr></thead>
+          <tbody id="kw-body"><tr><td colspan="4"><div class="kw-empty">Start typing to see keyword density</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SEO BLOCK -->
+    <div style="background:var(--white);border:1px solid var(--border);padding:24px;box-shadow:var(--shadow);">
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:10px;">Free Word Counter — Online Character & Word Count Tool</h2>
+      <p style="font-size:.8rem;color:var(--ink-light);line-height:1.9;font-weight:300;">ToolMint's word counter gives you an instant count of words, characters, characters without spaces, sentences, paragraphs, and estimated reading time. Check your text against platform character limits for Twitter/X, Instagram, LinkedIn, WhatsApp and more. Use Find & Replace, change text case, and analyze keyword density — all free, no signup, 100% private.</p>
+    </div>
+
+  </div>
+
+  <!-- RIGHT SIDEBAR -->
+  <div class="sidebar">
+
+    <!-- READING STATS -->
+    <div class="info-card">
+      <h3>Reading & Speaking</h3>
+      <div class="info-row"><span class="ir-label">Read time (avg)</span><span class="ir-val" id="r-read">0 min</span></div>
+      <div class="info-row"><span class="ir-label">Speak time (avg)</span><span class="ir-val" id="r-speak">0 min</span></div>
+      <div class="info-row"><span class="ir-label">Avg word length</span><span class="ir-val" id="r-avgword">0 chars</span></div>
+      <div class="info-row"><span class="ir-label">Longest word</span><span class="ir-val" id="r-longest" style="font-size:.72rem;word-break:break-all;">—</span></div>
+      <div class="info-row"><span class="ir-label">Unique words</span><span class="ir-val" id="r-unique">0</span></div>
+    </div>
+
+    <!-- READING LEVEL -->
+    <div class="info-card">
+      <h3>Reading Level</h3>
+      <div class="reading-badge" id="reading-badge">
+        <div class="rb-dot" id="rb-dot" style="background:var(--border)"></div>
+        <span id="rb-label">Type to analyze</span>
+      </div>
+      <p style="font-size:.74rem;color:var(--ink-light);line-height:1.7;" id="rb-desc">Reading level is estimated using the Flesch-Kincaid formula.</p>
+    </div>
+
+    <!-- PLATFORM LIMITS SIDEBAR -->
+    <div class="info-card">
+      <h3>Platform Limits</h3>
+      <div class="plat-cards" id="plat-cards-sidebar">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+
+    <!-- AD -->
+    <div>
+      <div style="font-size:.63rem;color:#bbb;text-transform:uppercase;letter-spacing:1px;text-align:center;margin-bottom:6px;">Advertisement</div>
+      <!-- ✅ PASTE GOOGLE ADSENSE 300×250 HERE -->
+      <div class="ad-slot ad-300">Google AdSense 300×250</div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 ToolMint · Free Word Counter & Character Counter · No Signup · Instant Results</p>
+  <p><a href="index.html">← Back to all tools</a></p>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+// Platform limits
+const PLATFORMS = [
+  {name:'𝕏 Twitter',   limit:280,    color:'#1a91da'},
+  {name:'Instagram',    limit:2200,   color:'#e1306c'},
+  {name:'LinkedIn Post',limit:700,    color:'#0077b5'},
+  {name:'WhatsApp',     limit:65536,  color:'#25d366'},
+  {name:'YouTube Title',limit:100,    color:'#ff0000'},
+  {name:'Meta Title',   limit:60,     color:'#4267b2'},
+];
+
+let currentLimit = 0;
+let currentLimitName = '';
+
+// Init sidebar platform cards
+function initPlatCards(){
+  const wrap = document.getElementById('plat-cards-sidebar');
+  wrap.innerHTML = PLATFORMS.map(p=>`
+    <div class="plat-card" id="pc-${p.name.replace(/\s/g,'_')}">
+      <div class="pc-top">
+        <span class="pc-name">${p.name}</span>
+        <span class="pc-count ok" id="pcc-${p.name.replace(/\s/g,'_')}">0 / ${p.limit.toLocaleString()}</span>
+      </div>
+      <div class="plat-track"><div class="plat-fill" id="pcf-${p.name.replace(/\s/g,'_')}" style="width:0%;background:${p.color}"></div></div>
+    </div>
+  `).join('');
+}
+
+function setPlatform(limit){
+  currentLimit = limit;
+  document.querySelectorAll('.plat-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  const wrap = document.getElementById('limit-bar-wrap');
+  if(!limit){ wrap.classList.remove('visible'); return; }
+  wrap.classList.add('visible');
+  currentLimitName = event.target.textContent;
+  document.getElementById('limit-platform-name').textContent = currentLimitName;
+  analyze();
+}
+
+function analyze(){
+  const text = document.getElementById('main-textarea').value;
+
+  // Basic counts
+  const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).filter(w=>w.length>0).length;
+  const chars = text.length;
+  const charsNoSpace = text.replace(/\s/g,'').length;
+  const sentences = text.trim()==='' ? 0 : (text.match(/[.!?]+/g)||[]).length || (text.trim()!==''?1:0);
+  const paras = text.trim()==='' ? 0 : text.split(/\n\s*\n/).filter(p=>p.trim()!=='').length || (text.trim()!==''?1:0);
+  const readTime = Math.max(1, Math.round(words/238));
+  const speakTime = Math.max(1, Math.round(words/130));
+
+  // Update stats
+  document.getElementById('s-words').textContent    = words.toLocaleString();
+  document.getElementById('s-chars').textContent    = chars.toLocaleString();
+  document.getElementById('s-chars-ns').textContent = charsNoSpace.toLocaleString();
+  document.getElementById('s-sentences').textContent= sentences;
+  document.getElementById('s-paras').textContent    = paras;
+  document.getElementById('s-read').textContent     = words < 238 ? '<1m' : readTime+'m';
+
+  document.getElementById('r-read').textContent     = words===0?'0 min': readTime<1?'< 1 min':readTime+' min';
+  document.getElementById('r-speak').textContent    = words===0?'0 min': speakTime<1?'< 1 min':speakTime+' min';
+
+  // Word analysis
+  const wordList = text.trim()==='' ? [] : text.toLowerCase().match(/\b[a-z']+\b/g)||[];
+  const avgWordLen = wordList.length ? (wordList.reduce((s,w)=>s+w.length,0)/wordList.length).toFixed(1) : 0;
+  const uniqueWords = new Set(wordList).size;
+  const longest = wordList.reduce((a,b)=>b.length>a.length?b:a,'');
+  document.getElementById('r-avgword').textContent  = avgWordLen+' chars';
+  document.getElementById('r-longest').textContent  = longest || '—';
+  document.getElementById('r-unique').textContent   = uniqueWords;
+
+  // Platform limit bar
+  if(currentLimit > 0){
+    const pct = Math.min((chars/currentLimit)*100, 100);
+    const over = chars > currentLimit;
+    const fill = document.getElementById('limit-fill');
+    fill.style.width = pct+'%';
+    fill.style.background = over ? '#e74c3c' : pct>80 ? '#e67e22' : '#27ae60';
+    const countEl = document.getElementById('limit-count-text');
+    countEl.textContent = chars.toLocaleString()+' / '+currentLimit.toLocaleString();
+    countEl.className = 'limit-count'+(over?' over':'');
+  }
+
+  // Sidebar platform cards
+  PLATFORMS.forEach(p=>{
+    const key = p.name.replace(/\s/g,'_');
+    const pct = Math.min((chars/p.limit)*100,100);
+    const over = chars>p.limit;
+    const el = document.getElementById('pcc-'+key);
+    if(el){
+      el.textContent = chars.toLocaleString()+' / '+p.limit.toLocaleString();
+      el.className = 'pc-count '+(over?'over':'ok');
+    }
+    const fill = document.getElementById('pcf-'+key);
+    if(fill){
+      fill.style.width = pct+'%';
+      fill.style.background = over?'#e74c3c':pct>80?'#e67e22':p.color;
+    }
+  });
+
+  // Reading level (simplified Flesch-Kincaid)
+  updateReadingLevel(words, sentences, wordList);
+
+  // Keyword density (top 8, exclude stopwords)
+  updateKeywords(wordList, words);
+}
+
+const STOPWORDS = new Set(['the','a','an','and','or','but','in','on','at','to','for','of','with','by','from','up','about','into','through','as','is','it','its','are','was','were','be','been','being','have','has','had','do','does','did','will','would','could','should','may','might','i','you','he','she','we','they','me','him','her','us','them','my','your','his','our','their','this','that','these','those','what','which','who','whom','not','no','so','if','then','than','when','where','how','all','any','both','each','few','more','most','other','some','such','own','same','too','very','just','also','back','after','use','two','can','our','said']);
+
+function updateKeywords(wordList, totalWords){
+  const freq = {};
+  wordList.forEach(w=>{ if(!STOPWORDS.has(w)&&w.length>2) freq[w]=(freq[w]||0)+1; });
+  const sorted = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const tbody = document.getElementById('kw-body');
+  if(!sorted.length){
+    tbody.innerHTML = '<tr><td colspan="4"><div class="kw-empty">Start typing to see keyword density</div></td></tr>';
+    return;
+  }
+  const maxCount = sorted[0][1];
+  tbody.innerHTML = sorted.map(([word,count])=>{
+    const density = totalWords>0 ? ((count/totalWords)*100).toFixed(1) : 0;
+    const barPct = (count/maxCount)*100;
+    return `<tr>
+      <td>${word}</td>
+      <td>${count}</td>
+      <td>${density}%</td>
+      <td><div class="kw-bar"><div class="kw-fill" style="width:${barPct}%"></div></div></td>
+    </tr>`;
+  }).join('');
+}
+
+function updateReadingLevel(words, sentences, wordList){
+  const badge = document.getElementById('reading-badge');
+  const dot   = document.getElementById('rb-dot');
+  const label = document.getElementById('rb-label');
+  const desc  = document.getElementById('rb-desc');
+
+  if(words < 30){
+    dot.style.background = '#bbb'; label.textContent = 'Need more text'; desc.textContent='Write at least 30 words for reading level analysis.'; return;
+  }
+
+  const avgSentenceLen = sentences>0 ? words/sentences : words;
+  const avgWordLen = wordList.length>0 ? wordList.reduce((s,w)=>s+w.length,0)/wordList.length : 5;
+  const score = 206.835 - (1.015*avgSentenceLen) - (84.6*(avgWordLen/5));
+
+  let level, color, descText;
+  if(score>=90)      { level='Very Easy';     color='#27ae60'; descText='Very easy to read. Suitable for all ages. Great for social media & casual content.'; }
+  else if(score>=80) { level='Easy';          color='#2ecc71'; descText='Easy to read. Conversational English. Good for blogs and articles.'; }
+  else if(score>=70) { level='Fairly Easy';   color='#f1c40f'; descText='Fairly easy. Suitable for 7th grade and above.'; }
+  else if(score>=60) { level='Standard';      color='#e67e22'; descText='Standard readability. Suitable for 8th–9th grade. Good for most web content.'; }
+  else if(score>=50) { level='Fairly Hard';   color='#e67e22'; descText='Fairly difficult. Suitable for high school level readers.'; }
+  else if(score>=30) { level='Difficult';     color='#e74c3c'; descText='Difficult to read. Best suited for college-educated readers.'; }
+  else               { level='Very Difficult';color='#c0392b'; descText='Very difficult. Best for academic or professional audiences.'; }
+
+  dot.style.background = color;
+  label.textContent = level;
+  label.style.color = color;
+  desc.textContent = descText;
+}
+
+// TOOLBAR FUNCTIONS
+function copyText(){ navigator.clipboard.writeText(document.getElementById('main-textarea').value).then(()=>showToast('Text copied!')); }
+function clearAll(){ document.getElementById('main-textarea').value=''; analyze(); }
+function toUpperCase(){ document.getElementById('main-textarea').value=document.getElementById('main-textarea').value.toUpperCase(); analyze(); }
+function toLowerCase(){ document.getElementById('main-textarea').value=document.getElementById('main-textarea').value.toLowerCase(); analyze(); }
+function toTitleCase(){
+  document.getElementById('main-textarea').value=document.getElementById('main-textarea').value.replace(/\w\S*/g,t=>t.charAt(0).toUpperCase()+t.substr(1).toLowerCase());
+  analyze();
+}
+function removeExtraSpaces(){
+  document.getElementById('main-textarea').value=document.getElementById('main-textarea').value.replace(/\s+/g,' ').trim();
+  analyze(); showToast('Extra spaces removed');
+}
+function removeDuplicates(){
+  const lines = document.getElementById('main-textarea').value.split('\n');
+  const unique = [...new Set(lines)];
+  document.getElementById('main-textarea').value = unique.join('\n');
+  analyze(); showToast('Duplicate lines removed');
+}
+function downloadText(){
+  const text = document.getElementById('main-textarea').value;
+  if(!text){ showToast('Nothing to download'); return; }
+  const blob = new Blob([text],{type:'text/plain'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='toolmint-text.txt'; a.click();
+  showToast('Downloaded!');
+}
+
+// FIND & REPLACE
+function findReplace(){
+  const find = document.getElementById('find-input').value;
+  const replace = document.getElementById('replace-input').value;
+  if(!find){ showToast('Enter a word to find'); return; }
+  const ta = document.getElementById('main-textarea');
+  const regex = new RegExp(find.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');
+  const matches = (ta.value.match(regex)||[]).length;
+  ta.value = ta.value.replace(regex, replace);
+  analyze();
+  document.getElementById('find-result').textContent = matches ? `${matches} replacement${matches>1?'s':''} made` : 'No matches found';
+  showToast(matches ? `Replaced ${matches} instance${matches>1?'s':''}` : 'No matches found');
+}
+
+function highlightFind(){
+  const find = document.getElementById('find-input').value;
+  if(!find){ showToast('Enter a word to find'); return; }
+  const ta = document.getElementById('main-textarea');
+  const regex = new RegExp(find.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');
+  const matches = (ta.value.match(regex)||[]).length;
+  document.getElementById('find-result').textContent = matches ? `${matches} occurrence${matches>1?'s':''} found` : 'Not found';
+  showToast(matches ? `Found ${matches} occurrence${matches>1?'s':''}` : 'Not found');
+}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+// INIT
+initPlatCards();
+analyze();
+</script>
+</body>
+</html>

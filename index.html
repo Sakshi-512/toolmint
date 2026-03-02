@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToolMint – Free Online Tools for Everyone</title>
+<meta name="description" content="ToolMint offers free online tools — QR code generator, invoice maker, password generator, age calculator and more. No signup, no watermarks, 100% free.">
+<meta name="keywords" content="free online tools, qr code generator, invoice generator, password generator, age calculator, free tools no signup">
+<link rel="canonical" href="https://toolmint.vercel.app/">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf8f5;--white:#fff;--ink:#1a1714;--ink-light:#6b6560;
+  --border:#e8e3dc;--accent:#c0392b;--accent-dark:#96281b;
+  --accent-light:#fdf0ee;--surface:#f3f0eb;
+  --shadow:0 2px 20px rgba(26,23,20,.08);--shadow-lg:0 8px 40px rgba(26,23,20,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;min-height:100vh;font-size:15px;line-height:1.6;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231a1714' fill-opacity='0.018'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none;z-index:0;}
+
+/* HEADER */
+header{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 0 var(--border);}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-mark{width:32px;height:32px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:.95rem;color:white;}
+.logo-text{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--ink);letter-spacing:-.5px;}
+.logo-text span{color:var(--accent);}
+nav{display:flex;gap:8px;}
+.nav-link{font-size:.75rem;font-weight:600;padding:6px 14px;border:1px solid var(--border);color:var(--ink-light);text-decoration:none;border-radius:100px;transition:all .2s;background:var(--surface);letter-spacing:.3px;}
+.nav-link:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+
+/* AD */
+.ad-leaderboard{position:relative;z-index:5;background:var(--white);border-bottom:1px solid var(--border);padding:14px;text-align:center;}
+.ad-slot{display:inline-flex;align-items:center;justify-content:center;background:var(--surface);border:1px dashed #ccc;color:#aaa;font-size:.7rem;letter-spacing:1px;font-weight:500;text-transform:uppercase;}
+.ad-728{width:min(728px,100%);height:90px;}
+.ad-300{width:300px;height:250px;}
+
+/* HERO */
+.hero{position:relative;z-index:1;text-align:center;padding:64px 24px 48px;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:28px;height:1px;background:var(--accent);opacity:.4;}
+h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,6vw,4rem);font-weight:900;line-height:1.05;letter-spacing:-1.5px;color:var(--ink);margin-bottom:16px;}
+h1 em{font-style:italic;color:var(--accent);}
+.hero-sub{color:var(--ink-light);font-size:1rem;font-weight:300;max-width:500px;margin:0 auto 36px;line-height:1.7;}
+.hero-stats{display:flex;gap:0;justify-content:center;border:1px solid var(--border);background:var(--white);max-width:480px;margin:0 auto;box-shadow:var(--shadow);}
+.hero-stat{flex:1;padding:16px 12px;text-align:center;border-right:1px solid var(--border);}
+.hero-stat:last-child{border-right:none;}
+.hero-stat .val{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--accent);display:block;}
+.hero-stat .lbl{font-size:.68rem;color:var(--ink-light);text-transform:uppercase;letter-spacing:.5px;font-weight:500;}
+
+/* FEATURES STRIP */
+.features{position:relative;z-index:1;background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:20px 24px;}
+.features-inner{max-width:1080px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
+.fi{display:flex;align-items:center;gap:8px;padding:7px 14px;background:var(--bg);border:1px solid var(--border);}
+.fi .ic{font-size:1rem;}
+.fi span{font-size:.78rem;font-weight:500;color:var(--ink);}
+
+/* SECTION */
+.section{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:48px 24px 20px;}
+.section-label{display:flex;align-items:center;gap:16px;margin-bottom:28px;}
+.section-label h2{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;letter-spacing:-.5px;}
+.section-label span{font-size:.7rem;color:var(--ink-light);text-transform:uppercase;letter-spacing:1px;border:1px solid var(--border);padding:3px 10px;background:var(--surface);}
+
+/* TOOLS GRID */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+.tool-card{background:var(--white);border:1px solid var(--border);padding:28px 28px 24px;text-decoration:none;color:var(--ink);transition:all .22s;position:relative;overflow:hidden;display:block;box-shadow:var(--shadow);}
+.tool-card:hover{border-color:rgba(192,57,43,.3);transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.tool-card.coming{opacity:.5;cursor:not-allowed;pointer-events:none;}
+.tool-icon{width:46px;height:46px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:16px;}
+.tool-card h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:8px;}
+.tool-card p{font-size:.8rem;color:var(--ink-light);line-height:1.65;font-weight:300;}
+.tool-badge{position:absolute;top:16px;right:16px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;}
+.badge-free{background:var(--accent-light);color:var(--accent);border:1px solid rgba(192,57,43,.15);}
+.badge-new{background:#edf7f1;color:#2e7d52;border:1px solid rgba(46,125,82,.2);}
+.badge-soon{background:var(--surface);color:var(--ink-light);border:1px solid var(--border);}
+.tool-arrow{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:.75rem;font-weight:600;color:var(--accent);letter-spacing:.3px;}
+
+/* SEO BLOCK */
+.seo-block{position:relative;z-index:1;max-width:1080px;margin:20px auto 60px;padding:0 24px;}
+.seo-inner{background:var(--white);border:1px solid var(--border);padding:28px;box-shadow:var(--shadow);}
+.seo-inner h2{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:10px;}
+.seo-inner p{font-size:.8rem;color:var(--ink-light);line-height:1.9;font-weight:300;}
+.seo-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
+.seo-tag{font-size:.66rem;padding:3px 10px;border:1px solid var(--border);color:var(--ink-light);background:var(--surface);}
+
+/* FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:24px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;background:var(--white);}
+.f-logo{display:flex;align-items:center;gap:8px;}
+.f-logo-mark{width:24px;height:24px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:.7rem;color:white;}
+.f-logo-text{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--ink);}
+.f-logo-text span{color:var(--accent);}
+footer p{font-size:.72rem;color:var(--ink-light);}
+
+@media(max-width:768px){header{padding:0 20px;}nav{display:none;}.hero{padding:40px 20px 36px;}.section{padding:32px 20px 20px;}.seo-block{padding:0 20px;}footer{padding:20px;}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.tool-card{animation:fadeUp .4s ease both;}
+.tool-card:nth-child(2){animation-delay:.06s;}
+.tool-card:nth-child(3){animation-delay:.12s;}
+.tool-card:nth-child(4){animation-delay:.18s;}
+.tool-card:nth-child(5){animation-delay:.24s;}
+.tool-card:nth-child(6){animation-delay:.30s;}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <div class="logo-mark">T</div>
+    <div class="logo-text">Tool<span>Mint</span></div>
+  </a>
+  <nav>
+    <a href="qr-generator.html" class="nav-link">QR Generator</a>
+    <a href="invoice-generator.html" class="nav-link">Invoice</a>
+    <a href="#tools" class="nav-link">All Tools</a>
+  </nav>
+</header>
+
+<!-- TOP AD -->
+<div class="ad-leaderboard">
+  <!-- ✅ PASTE GOOGLE ADSENSE 728×90 HERE -->
+  <div class="ad-slot ad-728">Advertisement · Google AdSense 728×90</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">100% Free · No Signup · No Watermarks</div>
+  <h1>Free Tools for<br><em>Real People</em></h1>
+  <p class="hero-sub">QR codes, invoices, calculators and more. All free, all private, all in one place. No account needed — ever.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="val">6</span><span class="lbl">Free Tools</span></div>
+    <div class="hero-stat"><span class="val">₹0</span><span class="lbl">Cost Forever</span></div>
+    <div class="hero-stat"><span class="val">100%</span><span class="lbl">On-Device</span></div>
+  </div>
+</div>
+
+<!-- FEATURES STRIP -->
+<div class="features">
+  <div class="features-inner">
+    <div class="fi"><span class="ic">⚡</span><span>Instant results</span></div>
+    <div class="fi"><span class="ic">🔒</span><span>Nothing stored on servers</span></div>
+    <div class="fi"><span class="ic">📥</span><span>Free downloads</span></div>
+    <div class="fi"><span class="ic">🚫</span><span>No watermarks</span></div>
+    <div class="fi"><span class="ic">👤</span><span>No account needed</span></div>
+    <div class="fi"><span class="ic">📱</span><span>Works on mobile</span></div>
+  </div>
+</div>
+
+<!-- TOOLS GRID -->
+<div class="section" id="tools">
+  <div class="section-label">
+    <h2>All Tools</h2>
+    <span>Free · No account needed</span>
+  </div>
+
+  <div class="tools-grid">
+
+    <a href="qr-generator.html" class="tool-card">
+      <span class="tool-badge badge-free">Free</span>
+      <div class="tool-icon">🔲</div>
+      <h3>QR Code Generator</h3>
+      <p>Create custom QR codes with logo, colors & frames. Supports URLs, WhatsApp, WiFi, email & more. Download PNG or SVG.</p>
+      <div class="tool-arrow">Open Tool →</div>
+    </a>
+
+    <a href="invoice-generator.html" class="tool-card">
+      <span class="tool-badge badge-new">New</span>
+      <div class="tool-icon" style="background:#edf7f1;">📄</div>
+      <h3>Invoice Generator</h3>
+      <p>Create professional invoices in seconds. Supports GST, multiple currencies, itemized billing. Download PDF — no watermark.</p>
+      <div class="tool-arrow">Open Tool →</div>
+    </a>
+
+    <a href="password-generator.html" class="tool-card">
+      <span class="tool-badge badge-new">New</span>
+      <div class="tool-icon" style="background:#f0f4ff;">🔑</div>
+      <h3>Password Generator</h3>
+      <p>Generate strong, secure passwords instantly. Customizable length, symbols, and complexity.</p>
+      <div class="tool-arrow">Open Tool →</div>
+    </a>
+
+    <a href="age-calculator.html" class="tool-card">
+      <span class="tool-badge badge-new">New</span>
+      <div class="tool-icon" style="background:#fff8ed;">🎂</div>
+      <h3>Age Calculator</h3>
+      <p>Calculate your exact age in years, months, and days from any date of birth.</p>
+      <div class="tool-arrow">Open Tool →</div>
+    </a>
+
+    <a href="emi-calculator.html" class="tool-card">
+      <span class="tool-badge badge-new">New</span>
+      <div class="tool-icon" style="background:#fff0ed;">💰</div>
+      <h3>EMI Calculator</h3>
+      <p>Calculate monthly EMI for home, car or personal loans. Full amortization schedule included.</p>
+      <div class="tool-arrow">Open Tool →</div>
+    </a>
+
+    <a href="word-counter.html" class="tool-card">
+      <span class="tool-badge badge-new">New</span>
+      <div class="tool-icon" style="background:#eaf4ff;">📝</div>
+      <h3>Word Counter</h3>
+      <p>Count words, characters, sentences & reading time. Check Twitter, Instagram & LinkedIn limits instantly.</p>
+      <div class="tool-arrow">Open Tool →</div>
+    </a>
+
+  </div>
+</div>
+
+<!-- SEO BLOCK -->
+<div class="seo-block">
+  <div class="seo-inner">
+    <h2>Free Online Tools — No Sign Up Required</h2>
+    <p>ToolMint is a growing collection of free online tools built for freelancers, students, business owners, and everyday users. All tools work directly in your browser — no data is ever stored on any server, no account is needed, no hidden fees, no watermarks. Just free, fast, useful tools.</p>
+    <div class="seo-tags">
+      <span class="seo-tag">free online tools</span>
+      <span class="seo-tag">free qr code generator</span>
+      <span class="seo-tag">free invoice generator no watermark</span>
+      <span class="seo-tag">free password generator</span>
+      <span class="seo-tag">online tools no signup</span>
+      <span class="seo-tag">free tools for freelancers india</span>
+      <span class="seo-tag">toolmint free tools</span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">
+    <div class="f-logo-mark">T</div>
+    <div class="f-logo-text">Tool<span>Mint</span></div>
+  </div>
+  <p>Free online tools · No signup · No watermarks · Works everywhere</p>
+  <p style="font-size:.68rem;color:#bbb;">© 2025 ToolMint</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Invoice Generator – No Watermark | ToolMint</title>
+<meta name="description" content="Generate professional invoices for free. No watermark, no signup, no limits. Download as PDF instantly. Perfect for freelancers and small businesses in India.">
+<meta name="keywords" content="free invoice generator, invoice maker no watermark, free invoice download pdf, invoice generator india, gst invoice generator free">
+<link rel="canonical" href="https://toolmint.vercel.app/invoice-generator">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{
+  --bg:#faf8f5;--white:#fff;--ink:#1a1714;--ink-light:#6b6560;
+  --border:#e8e3dc;--accent:#c0392b;--accent-dark:#96281b;
+  --accent-light:#fdf0ee;--surface:#f3f0eb;
+  --shadow:0 2px 20px rgba(26,23,20,.08);--shadow-lg:0 8px 40px rgba(26,23,20,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;min-height:100vh;font-size:15px;line-height:1.6;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231a1714' fill-opacity='0.018'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none;z-index:0;}
+
+/* HEADER */
+header{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-mark{width:30px;height:30px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:.85rem;color:white;}
+.logo-text{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:var(--ink);letter-spacing:-.5px;}
+.logo-text span{color:var(--accent);}
+.back-link{font-size:.75rem;color:var(--ink-light);text-decoration:none;border:1px solid var(--border);padding:6px 14px;border-radius:100px;transition:all .2s;background:var(--surface);font-weight:500;}
+.back-link:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+
+/* AD */
+.ad-leaderboard{position:relative;z-index:5;background:var(--white);border-bottom:1px solid var(--border);padding:14px;text-align:center;}
+.ad-slot{display:inline-flex;align-items:center;justify-content:center;background:var(--surface);border:1px dashed #ccc;color:#aaa;font-size:.7rem;letter-spacing:1px;font-weight:500;text-transform:uppercase;}
+.ad-728{width:min(728px,100%);height:90px;}
+.ad-300{width:100%;height:250px;}
+
+/* PAGE HERO */
+.page-hero{position:relative;z-index:1;padding:40px 48px 28px;border-bottom:1px solid var(--border);background:var(--white);}
+.breadcrumb{font-size:.72rem;color:var(--ink-light);margin-bottom:12px;}
+.breadcrumb a{color:var(--accent);text-decoration:none;font-weight:500;}
+.breadcrumb a:hover{text-decoration:underline;}
+.page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;letter-spacing:-1px;margin-bottom:8px;}
+.page-hero h1 em{font-style:italic;color:var(--accent);}
+.page-hero p{color:var(--ink-light);font-size:.88rem;font-weight:300;}
+
+/* FEATURES */
+.features{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:16px 24px;}
+.features-inner{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.fi{display:flex;align-items:center;gap:8px;padding:6px 14px;background:var(--bg);border:1px solid var(--border);}
+.fi .ic{font-size:.95rem;}
+.fi span{font-size:.76rem;font-weight:500;color:var(--ink);}
+
+/* LAYOUT */
+.main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:28px 48px 80px;display:grid;grid-template-columns:1fr 400px;gap:28px;align-items:start;}
+@media(max-width:1000px){.main{grid-template-columns:1fr;padding:20px;}header{padding:0 20px;}.page-hero{padding:28px 20px;}}
+
+/* CARD */
+.card{background:var(--white);border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:16px;}
+.card-header{padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.card-header .ic{width:30px;height:30px;background:var(--accent-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;}
+.card-header h2{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;}
+.card-body{padding:22px 24px;}
+
+/* FIELDS */
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:.68rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;}
+.field input,.field textarea,.field select{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.88rem;padding:10px 13px;outline:none;transition:border-color .2s,box-shadow .2s;resize:vertical;border-radius:2px;appearance:none;}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(192,57,43,.08);}
+.field textarea{min-height:68px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.select-wrap{position:relative;}
+.select-wrap::after{content:'▾';position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--ink-light);pointer-events:none;font-size:.75rem;}
+
+/* ITEMS TABLE */
+.items-table{width:100%;border-collapse:collapse;margin-bottom:12px;}
+.items-table th{font-size:.63rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--ink-light);padding:8px 8px;text-align:left;border-bottom:2px solid var(--border);}
+.items-table td{padding:5px 5px;}
+.items-table input{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.82rem;padding:8px 10px;outline:none;border-radius:2px;transition:border-color .2s;}
+.items-table input:focus{border-color:var(--accent);}
+.del-btn{background:transparent;border:none;color:var(--ink-light);cursor:pointer;font-size:.95rem;padding:4px 8px;transition:color .2s;line-height:1;}
+.del-btn:hover{color:var(--accent);}
+.add-item-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;background:transparent;border:1.5px dashed var(--border);color:var(--ink-light);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;padding:9px;cursor:pointer;transition:all .2s;letter-spacing:.3px;}
+.add-item-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+
+/* TOTALS */
+.totals-box{background:var(--surface);border:1px solid var(--border);padding:16px;margin-top:14px;}
+.total-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:.84rem;color:var(--ink-light);}
+.total-row span:last-child{font-weight:500;color:var(--ink);}
+.total-row.grand{border-top:1px solid var(--border);margin-top:8px;padding-top:12px;font-size:1rem;color:var(--ink);}
+.total-row.grand span:last-child{font-weight:700;color:var(--accent);font-size:1.1rem;}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--ink-light);font-size:.68rem;text-transform:uppercase;letter-spacing:1px;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* BUTTONS */
+.btn-primary{width:100%;padding:14px;background:var(--accent);color:white;border:none;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;box-shadow:0 2px 12px rgba(192,57,43,.25);border-radius:2px;}
+.btn-primary:hover{background:var(--accent-dark);transform:translateY(-1px);box-shadow:0 4px 20px rgba(192,57,43,.35);}
+.btn-outline{width:100%;padding:12px;background:transparent;color:var(--ink);border:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;margin-top:10px;border-radius:2px;}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+
+/* PREVIEW PANEL */
+.preview-sticky{position:sticky;top:24px;}
+.preview-label{font-size:.68rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;padding:0 2px;}
+
+/* INVOICE DOCUMENT */
+.invoice-doc{background:white;color:#1a1a1a;padding:32px;font-family:'DM Sans',sans-serif;font-size:12.5px;line-height:1.55;border:1px solid var(--border);box-shadow:var(--shadow-lg);}
+.inv-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;padding-bottom:18px;border-bottom:2.5px solid #1a1a1a;}
+.inv-from-name{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:#1a1a1a;}
+.inv-from-sub{font-size:.72rem;color:#888;margin-top:3px;}
+.inv-title-block{text-align:right;}
+.inv-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:#1a1a1a;letter-spacing:-1px;}
+.inv-num{font-size:.72rem;color:#888;margin-top:4px;}
+.inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:22px;}
+.inv-party-lbl{font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#999;margin-bottom:5px;}
+.inv-party-name{font-weight:700;font-size:.9rem;margin-bottom:2px;color:#1a1a1a;}
+.inv-party-detail{font-size:.75rem;color:#666;white-space:pre-line;line-height:1.5;}
+.inv-dates{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px;background:#f7f7f7;padding:12px 14px;}
+.inv-date-lbl{font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999;display:block;margin-bottom:2px;}
+.inv-date-val{font-size:.82rem;font-weight:600;color:#1a1a1a;}
+.inv-table{width:100%;border-collapse:collapse;margin-bottom:18px;}
+.inv-table th{background:#1a1a1a;color:white;font-size:.62rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:7px 9px;text-align:left;}
+.inv-table th:nth-child(2){text-align:center;}
+.inv-table th:nth-child(3),.inv-table th:nth-child(4){text-align:right;}
+.inv-table td{padding:7px 9px;border-bottom:1px solid #ececec;font-size:.78rem;color:#333;}
+.inv-table td:nth-child(2){text-align:center;}
+.inv-table td:nth-child(3),.inv-table td:nth-child(4){text-align:right;}
+.inv-table tr:nth-child(even) td{background:#fafafa;}
+.inv-totals-wrap{display:flex;justify-content:flex-end;margin-bottom:18px;}
+.inv-totals{width:210px;}
+.inv-t-row{display:flex;justify-content:space-between;padding:4px 0;font-size:.78rem;color:#666;}
+.inv-t-row.grand{border-top:2px solid #1a1a1a;margin-top:6px;padding-top:10px;font-weight:800;font-size:.95rem;color:#1a1a1a;}
+.inv-notes-block{padding-top:16px;border-top:1px solid #ececec;font-size:.74rem;color:#777;line-height:1.7;}
+.inv-notes-block strong{color:#333;display:block;margin-bottom:4px;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;}
+.inv-footer{margin-top:20px;padding-top:12px;border-top:2.5px solid #1a1a1a;font-size:.62rem;color:#bbb;text-align:center;}
+
+/* AD SIDE */
+.ad-side-wrap{margin-top:20px;}
+.ad-lbl{font-size:.63rem;color:#bbb;text-transform:uppercase;letter-spacing:1px;text-align:center;margin-bottom:6px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:white;padding:11px 22px;border-radius:100px;font-size:.82rem;font-weight:500;opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:999;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:22px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;background:var(--white);}
+footer p{font-size:.72rem;color:var(--ink-light);}
+footer a{color:var(--accent);text-decoration:none;font-weight:500;}
+
+@media(max-width:768px){.row2,.row3{grid-template-columns:1fr;}.inv-parties{grid-template-columns:1fr;}.inv-dates{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <div class="logo-mark">T</div>
+    <div class="logo-text">Tool<span>Mint</span></div>
+  </a>
+  <a href="index.html" class="back-link">← All Tools</a>
+</header>
+
+<!-- TOP AD -->
+<div class="ad-leaderboard">
+  <!-- ✅ PASTE GOOGLE ADSENSE 728×90 HERE -->
+  <div class="ad-slot ad-728">Advertisement · Google AdSense 728×90</div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">ToolMint</a> → Invoice Generator</div>
+  <h1>Free <em>Invoice</em> Generator</h1>
+  <p>Professional invoices in seconds · No watermark · No signup · Download PDF free</p>
+</div>
+
+<!-- FEATURES -->
+<div class="features">
+  <div class="features-inner">
+    <div class="fi"><span class="ic">📄</span><span>PDF Download</span></div>
+    <div class="fi"><span class="ic">🚫</span><span>No Watermark</span></div>
+    <div class="fi"><span class="ic">💸</span><span>GST Support</span></div>
+    <div class="fi"><span class="ic">💱</span><span>Multiple Currencies</span></div>
+    <div class="fi"><span class="ic">👁</span><span>Live Preview</span></div>
+    <div class="fi"><span class="ic">🔒</span><span>100% Private</span></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- LEFT: FORM -->
+  <div>
+
+    <!-- YOUR DETAILS -->
+    <div class="card">
+      <div class="card-header"><div class="ic">🏢</div><h2>Your Business Details</h2></div>
+      <div class="card-body">
+        <div class="row2">
+          <div class="field"><label>Business / Your Name</label><input id="from-name" placeholder="Your Name or Business" oninput="updatePreview()"></div>
+          <div class="field"><label>Email</label><input id="from-email" placeholder="you@email.com" oninput="updatePreview()"></div>
+        </div>
+        <div class="field"><label>Address</label><textarea id="from-address" placeholder="123 Street, City, State, PIN" rows="2" oninput="updatePreview()"></textarea></div>
+        <div class="row2">
+          <div class="field"><label>Phone</label><input id="from-phone" placeholder="+91 98765 43210" oninput="updatePreview()"></div>
+          <div class="field"><label>GSTIN (optional)</label><input id="from-gst" placeholder="22AAAAA0000A1Z5" oninput="updatePreview()"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLIENT -->
+    <div class="card">
+      <div class="card-header"><div class="ic">👤</div><h2>Bill To — Client Details</h2></div>
+      <div class="card-body">
+        <div class="row2">
+          <div class="field"><label>Client Name</label><input id="to-name" placeholder="Client or Company Name" oninput="updatePreview()"></div>
+          <div class="field"><label>Client Email</label><input id="to-email" placeholder="client@email.com" oninput="updatePreview()"></div>
+        </div>
+        <div class="field"><label>Client Address</label><textarea id="to-address" placeholder="Client full address" rows="2" oninput="updatePreview()"></textarea></div>
+      </div>
+    </div>
+
+    <!-- INVOICE META -->
+    <div class="card">
+      <div class="card-header"><div class="ic">📋</div><h2>Invoice Details</h2></div>
+      <div class="card-body">
+        <div class="row3">
+          <div class="field"><label>Invoice #</label><input id="inv-num" value="INV-001" oninput="updatePreview()"></div>
+          <div class="field"><label>Invoice Date</label><input type="date" id="inv-date" oninput="updatePreview()"></div>
+          <div class="field"><label>Due Date</label><input type="date" id="due-date" oninput="updatePreview()"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>Currency</label>
+            <div class="select-wrap">
+              <select id="currency" onchange="updatePreview()">
+                <option value="₹">₹ INR – Indian Rupee</option>
+                <option value="$">$ USD – US Dollar</option>
+                <option value="€">€ EUR – Euro</option>
+                <option value="£">£ GBP – British Pound</option>
+                <option value="AED ">AED – UAE Dirham</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label>Tax / GST %</label><input id="tax-pct" type="number" value="18" min="0" max="100" oninput="updatePreview()"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ITEMS -->
+    <div class="card">
+      <div class="card-header"><div class="ic">📦</div><h2>Items & Services</h2></div>
+      <div class="card-body">
+        <table class="items-table">
+          <thead>
+            <tr>
+              <th style="width:42%">Description</th>
+              <th style="width:13%">Qty</th>
+              <th style="width:19%">Rate</th>
+              <th style="width:19%">Amount</th>
+              <th style="width:7%"></th>
+            </tr>
+          </thead>
+          <tbody id="items-body"></tbody>
+        </table>
+        <button class="add-item-btn" onclick="addItem()">+ Add Line Item</button>
+        <div class="totals-box">
+          <div class="total-row"><span>Subtotal</span><span id="t-sub">₹0.00</span></div>
+          <div class="total-row"><span id="t-tax-lbl">Tax (18%)</span><span id="t-tax">₹0.00</span></div>
+          <div class="total-row grand"><span>Total Due</span><span id="t-total">₹0.00</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="card">
+      <div class="card-header"><div class="ic">📝</div><h2>Notes & Payment Info</h2></div>
+      <div class="card-body">
+        <div class="field"><label>Notes / Terms & Conditions</label><textarea id="inv-notes" placeholder="Payment due within 15 days. Thank you for your business!" oninput="updatePreview()"></textarea></div>
+        <div class="field"><label>Bank / UPI Payment Details</label><textarea id="inv-bank" placeholder="Bank: HDFC Bank&#10;A/C No: 1234567890&#10;IFSC: HDFC0001234&#10;UPI: yourname@upi" rows="4" oninput="updatePreview()"></textarea></div>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="downloadPDF()">⬇ Download Invoice as PDF</button>
+    <button class="btn-outline" onclick="printInvoice()">🖨 Print Invoice</button>
+
+  </div>
+
+  <!-- RIGHT: PREVIEW -->
+  <div class="preview-sticky">
+    <p class="preview-label">Live Preview</p>
+    <div class="invoice-doc" id="invoice-preview">
+      <!-- Rendered by JS -->
+    </div>
+
+    <!-- SIDE AD -->
+    <div class="ad-side-wrap">
+      <div class="ad-lbl">Advertisement</div>
+      <!-- ✅ PASTE GOOGLE ADSENSE 300×250 HERE -->
+      <div class="ad-slot ad-300">Google AdSense 300×250</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SEO BLOCK -->
+<div style="position:relative;z-index:1;max-width:1200px;margin:0 auto 60px;padding:0 48px;">
+  <div style="background:var(--white);border:1px solid var(--border);padding:26px;box-shadow:var(--shadow);">
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:10px;">Free Invoice Generator — No Watermark, No Signup</h2>
+    <p style="font-size:.8rem;color:var(--ink-light);line-height:1.9;font-weight:300;">ToolMint's invoice generator lets freelancers, consultants, and small business owners create professional invoices for free. Supports GST, multiple currencies, itemized billing, and custom notes. Download as PDF instantly — no watermark, no account needed. Perfect for Indian freelancers, agencies, designers, developers, and service providers.</p>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 ToolMint · Free Invoice Generator · No Watermark · No Signup</p>
+  <p><a href="index.html">← Back to all tools</a></p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Default dates
+const today = new Date().toISOString().split('T')[0];
+const due15 = new Date(Date.now()+15*864e5).toISOString().split('T')[0];
+document.getElementById('inv-date').value = today;
+document.getElementById('due-date').value = due15;
+
+// Items
+let items = [
+  {desc:'Design / Development Services', qty:1, rate:5000},
+  {desc:'Project Management',            qty:2, rate:1500},
+];
+
+function getCur(){ return document.getElementById('currency').value; }
+function g(id){ return document.getElementById(id).value.trim(); }
+
+function calcTotals(){
+  const cur = getCur();
+  const tax = parseFloat(document.getElementById('tax-pct').value)||0;
+  const sub = items.reduce((s,it)=>s+(parseFloat(it.qty)||0)*(parseFloat(it.rate)||0),0);
+  const taxAmt = sub*tax/100;
+  const total = sub+taxAmt;
+  document.getElementById('t-sub').textContent   = cur+sub.toFixed(2);
+  document.getElementById('t-tax').textContent   = cur+taxAmt.toFixed(2);
+  document.getElementById('t-total').textContent = cur+total.toFixed(2);
+  document.getElementById('t-tax-lbl').textContent = `Tax (${tax}%)`;
+  return {sub,taxAmt,total,tax,cur};
+}
+
+function renderItemsTable(){
+  const body = document.getElementById('items-body');
+  body.innerHTML = '';
+  items.forEach((item,i)=>{
+    const amt = (parseFloat(item.qty)||0)*(parseFloat(item.rate)||0);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input value="${item.desc}" placeholder="Item description" oninput="items[${i}].desc=this.value;updatePreview()"></td>
+      <td><input type="number" value="${item.qty}" min="0" style="text-align:center" oninput="items[${i}].qty=this.value;calcTotals();updatePreview()"></td>
+      <td><input type="number" value="${item.rate}" min="0" oninput="items[${i}].rate=this.value;calcTotals();updatePreview()"></td>
+      <td style="padding:8px 10px;font-size:.8rem;font-weight:600;color:var(--ink);text-align:right;">${getCur()}${amt.toFixed(2)}</td>
+      <td><button class="del-btn" onclick="removeItem(${i})" title="Remove">✕</button></td>
+    `;
+    body.appendChild(tr);
+  });
+}
+
+function addItem(){ items.push({desc:'',qty:1,rate:0}); renderItemsTable(); calcTotals(); updatePreview(); }
+function removeItem(i){ items.splice(i,1); renderItemsTable(); calcTotals(); updatePreview(); }
+
+function updatePreview(){
+  renderItemsTable();
+  const {sub,taxAmt,total,tax,cur} = calcTotals();
+
+  const rows = items.map(it=>{
+    const amt=(parseFloat(it.qty)||0)*(parseFloat(it.rate)||0);
+    return `<tr>
+      <td>${it.desc||'—'}</td>
+      <td>${it.qty}</td>
+      <td>${cur}${parseFloat(it.rate||0).toFixed(2)}</td>
+      <td>${cur}${amt.toFixed(2)}</td>
+    </tr>`;
+  }).join('');
+
+  const bankHtml = g('inv-bank')
+    ? `<div style="margin-top:10px"><strong>Payment Details</strong><div style="white-space:pre-line;margin-top:3px">${g('inv-bank')}</div></div>` : '';
+
+  const gstHtml = g('from-gst')
+    ? `<div style="font-size:.65rem;color:#888;margin-top:2px">GSTIN: ${g('from-gst')}</div>` : '';
+
+  document.getElementById('invoice-preview').innerHTML = `
+    <div class="inv-head">
+      <div>
+        <div class="inv-from-name">${g('from-name')||'Your Business'}</div>
+        <div class="inv-from-sub">${g('from-email')||''}${g('from-phone')?' · '+g('from-phone'):''}</div>
+        ${gstHtml}
+      </div>
+      <div class="inv-title-block">
+        <div class="inv-title">INVOICE</div>
+        <div class="inv-num"># ${g('inv-num')||'INV-001'}</div>
+      </div>
+    </div>
+
+    <div class="inv-parties">
+      <div>
+        <div class="inv-party-lbl">From</div>
+        <div class="inv-party-name">${g('from-name')||'Your Business'}</div>
+        <div class="inv-party-detail">${g('from-address')||'Your address here'}</div>
+      </div>
+      <div>
+        <div class="inv-party-lbl">Bill To</div>
+        <div class="inv-party-name">${g('to-name')||'Client Name'}</div>
+        <div class="inv-party-detail">${g('to-address')||'Client address'}\n${g('to-email')||''}</div>
+      </div>
+    </div>
+
+    <div class="inv-dates">
+      <div><span class="inv-date-lbl">Invoice Date</span><span class="inv-date-val">${g('inv-date')||today}</span></div>
+      <div><span class="inv-date-lbl">Due Date</span><span class="inv-date-val">${g('due-date')||due15}</span></div>
+    </div>
+
+    <table class="inv-table">
+      <thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+
+    <div class="inv-totals-wrap">
+      <div class="inv-totals">
+        <div class="inv-t-row"><span>Subtotal</span><span>${cur}${sub.toFixed(2)}</span></div>
+        <div class="inv-t-row"><span>Tax (${tax}%)</span><span>${cur}${taxAmt.toFixed(2)}</span></div>
+        <div class="inv-t-row grand"><span>Total Due</span><span>${cur}${total.toFixed(2)}</span></div>
+      </div>
+    </div>
+
+    ${g('inv-notes')||g('inv-bank')?`<div class="inv-notes-block">
+      ${g('inv-notes')?`<strong>Notes & Terms</strong><div>${g('inv-notes')}</div>`:''}
+      ${bankHtml}
+    </div>`:''}
+
+    <div class="inv-footer">Generated free with ToolMint · toolmint.vercel.app · No watermark · No signup</div>
+  `;
+}
+
+function downloadPDF(){
+  const {jsPDF} = window.jspdf;
+  const doc = new jsPDF('p','mm','a4');
+  const el = document.getElementById('invoice-preview');
+  doc.html(el,{
+    callback(pdf){ pdf.save(`invoice-${g('inv-num')||'001'}.pdf`); showToast('PDF Downloaded!'); },
+    x:10,y:10,width:190,windowWidth:el.scrollWidth
+  });
+}
+
+function printInvoice(){
+  const content = document.getElementById('invoice-preview').outerHTML;
+  const win = window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>Invoice ${g('inv-num')||'001'}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;padding:32px;font-size:12.5px;color:#1a1a1a;}
+  .invoice-doc{max-width:700px;margin:0 auto;}
+  .inv-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;padding-bottom:18px;border-bottom:2.5px solid #1a1a1a;}
+  .inv-from-name{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;}
+  .inv-from-sub{font-size:.72rem;color:#888;margin-top:3px;}
+  .inv-title-block{text-align:right;}
+  .inv-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;letter-spacing:-1px;}
+  .inv-num{font-size:.72rem;color:#888;margin-top:4px;}
+  .inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:22px;}
+  .inv-party-lbl{font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#999;margin-bottom:5px;}
+  .inv-party-name{font-weight:700;font-size:.9rem;margin-bottom:2px;}
+  .inv-party-detail{font-size:.75rem;color:#666;white-space:pre-line;}
+  .inv-dates{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px;background:#f7f7f7;padding:12px 14px;}
+  .inv-date-lbl{font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999;display:block;margin-bottom:2px;}
+  .inv-date-val{font-size:.82rem;font-weight:600;}
+  .inv-table{width:100%;border-collapse:collapse;margin-bottom:18px;}
+  .inv-table th{background:#1a1a1a;color:white;font-size:.62rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:7px 9px;text-align:left;}
+  .inv-table th:nth-child(2){text-align:center;}.inv-table th:nth-child(3),.inv-table th:nth-child(4){text-align:right;}
+  .inv-table td{padding:7px 9px;border-bottom:1px solid #ececec;font-size:.78rem;}
+  .inv-table td:nth-child(2){text-align:center;}.inv-table td:nth-child(3),.inv-table td:nth-child(4){text-align:right;}
+  .inv-table tr:nth-child(even) td{background:#fafafa;}
+  .inv-totals-wrap{display:flex;justify-content:flex-end;margin-bottom:18px;}
+  .inv-totals{width:210px;}
+  .inv-t-row{display:flex;justify-content:space-between;padding:4px 0;font-size:.78rem;color:#666;}
+  .inv-t-row.grand{border-top:2px solid #1a1a1a;margin-top:6px;padding-top:10px;font-weight:800;font-size:.95rem;color:#1a1a1a;}
+  .inv-notes-block{padding-top:16px;border-top:1px solid #ececec;font-size:.74rem;color:#777;line-height:1.7;}
+  .inv-notes-block strong{color:#333;display:block;margin-bottom:4px;font-size:.68rem;text-transform:uppercase;letter-spacing:.5px;}
+  .inv-footer{margin-top:20px;padding-top:12px;border-top:2.5px solid #1a1a1a;font-size:.62rem;color:#bbb;text-align:center;}
+  </style></head><body>${content}</body></html>`);
+  win.document.close();
+  setTimeout(()=>win.print(),600);
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// Init
+renderItemsTable();
+updatePreview();
+</script>
+</body>
+</html>

@@ -100,6 +100,18 @@ header{position:relative;z-index:10;background:var(--white);border-bottom:1px so
 footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:22px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;background:var(--white);}
 footer p{font-size:.72rem;color:var(--ink-light);}
 footer a{color:var(--accent);text-decoration:none;font-weight:500;}
+
+/* FAQ SECTION — same as index */
+.faq-section{position:relative;z-index:1;max-width:800px;margin:60px auto 80px;padding:0 24px;}
+.faq-section h2{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;text-align:center;margin-bottom:30px;color:var(--ink);}
+.faq-section h2 span{color:var(--ink);}
+.faq-subtitle{font-size:.85rem;color:var(--ink-light);margin-bottom:16px;}
+.faq-item{background:var(--white);border:1px solid var(--border);margin-bottom:12px;box-shadow:0 2px 10px rgba(26,23,20,.03);transition:all .3s ease;}
+.faq-q{padding:18px 24px;font-size:.95rem;font-weight:600;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;}
+.faq-icon{color:var(--accent);font-size:1.2rem;font-weight:400;transition:transform .3s ease;}
+.faq-a{padding:0 24px;max-height:0;overflow:hidden;color:var(--ink-light);font-size:.85rem;line-height:1.7;transition:all .3s ease;opacity:0;}
+.faq-item.open .faq-a{padding:0 24px 20px;max-height:500px;opacity:1;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZKYGCQPN7B"></script>
@@ -243,6 +255,59 @@ footer a{color:var(--accent);text-decoration:none;font-weight:500;}
     <p style="font-size:.8rem;color:var(--ink-light);line-height:1.9;font-weight:300;">ToolMint's EMI calculator helps you plan your finances by calculating the exact monthly EMI for home loans, car loans, and personal loans. See a full year-by-year amortization schedule, total interest payable, and a visual breakdown of principal vs interest. Completely free, no signup, instant results.</p>
   </div>
 </div>
+
+<!-- FAQ SECTION — SEO -->
+<div class="faq-section">
+  <h2>EMI Calculator — Frequently Asked <span>Questions</span></h2>
+  <div class="faq-item">
+    <div class="faq-q">How do I calculate EMI for a home loan?<span class="faq-icon">+</span></div>
+    <div class="faq-a">Select 'Home Loan', enter your loan amount, interest rate, and tenure in years. ToolMint instantly calculates your monthly EMI, total interest payable, and total amount payable with a full year-by-year amortization schedule.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What is EMI?<span class="faq-icon">+</span></div>
+    <div class="faq-a">EMI stands for Equated Monthly Instalment. It is the fixed amount you pay to your bank or lender every month to repay your loan. It includes both the principal amount and the interest.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What is the EMI formula?<span class="faq-icon">+</span></div>
+    <div class="faq-a">EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is the principal loan amount, r is the monthly interest rate (annual rate divided by 12), and n is the number of monthly instalments.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What is a good home loan interest rate in India?<span class="faq-icon">+</span></div>
+    <div class="faq-a">As of 2025, home loan interest rates in India typically range from 8% to 10% per annum depending on the bank and your credit score. Use ToolMint's EMI calculator to compare EMIs at different interest rates.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What is an amortization schedule?<span class="faq-icon">+</span></div>
+    <div class="faq-a">An amortization schedule is a table showing how each yearly payment is split between principal and interest, and what your remaining loan balance is at the end of each year. ToolMint shows this for free.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">How much EMI can I afford?<span class="faq-icon">+</span></div>
+    <div class="faq-a">A general rule is that your total EMI should not exceed 40-50% of your monthly take-home salary. For example, if you earn ₹50,000 per month, your total EMIs should ideally stay below ₹20,000-25,000.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What is the difference between home loan, car loan and personal loan EMI?<span class="faq-icon">+</span></div>
+    <div class="faq-a">Home loans have the lowest interest rates (8-10%) and longest tenure (up to 30 years). Car loans have medium rates (9-12%) and 3-7 year tenure. Personal loans have the highest rates (12-24%) and shortest tenure (1-5 years).</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Can I calculate EMI for any loan amount?<span class="faq-icon">+</span></div>
+    <div class="faq-a">Yes. ToolMint's EMI calculator supports loan amounts from ₹1 lakh to ₹1 crore with interest rates from 1% to 30% and tenure from 1 to 30 years — covering virtually all loan types in India.</div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Free EMI Calculator India","url":"https://toolmint.vercel.app/emi-calculator","description":"Calculate monthly EMI for home loan, car loan and personal loan instantly. Full amortization schedule included. Free, no signup.","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I calculate EMI for a home loan?","acceptedAnswer":{"@type":"Answer","text":"Select 'Home Loan', enter your loan amount, interest rate, and tenure in years. ToolMint instantly calculates your monthly EMI, total interest payable, and total amount payable with a full year-by-year amortization schedule."}},{"@type":"Question","name":"What is EMI?","acceptedAnswer":{"@type":"Answer","text":"EMI stands for Equated Monthly Instalment. It is the fixed amount you pay to your bank or lender every month to repay your loan. It includes both the principal amount and the interest."}},{"@type":"Question","name":"What is the EMI formula?","acceptedAnswer":{"@type":"Answer","text":"EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is the principal loan amount, r is the monthly interest rate (annual rate divided by 12), and n is the number of monthly instalments."}},{"@type":"Question","name":"What is a good home loan interest rate in India?","acceptedAnswer":{"@type":"Answer","text":"As of 2025, home loan interest rates in India typically range from 8% to 10% per annum depending on the bank and your credit score. Use ToolMint's EMI calculator to compare EMIs at different interest rates."}},{"@type":"Question","name":"What is an amortization schedule?","acceptedAnswer":{"@type":"Answer","text":"An amortization schedule is a table showing how each yearly payment is split between principal and interest, and what your remaining loan balance is at the end of each year. ToolMint shows this for free."}},{"@type":"Question","name":"How much EMI can I afford?","acceptedAnswer":{"@type":"Answer","text":"A general rule is that your total EMI should not exceed 40-50% of your monthly take-home salary. For example, if you earn ₹50,000 per month, your total EMIs should ideally stay below ₹20,000-25,000."}},{"@type":"Question","name":"What is the difference between home loan, car loan and personal loan EMI?","acceptedAnswer":{"@type":"Answer","text":"Home loans have the lowest interest rates (8-10%) and longest tenure (up to 30 years). Car loans have medium rates (9-12%) and 3-7 year tenure. Personal loans have the highest rates (12-24%) and shortest tenure (1-5 years)."}},{"@type":"Question","name":"Can I calculate EMI for any loan amount?","acceptedAnswer":{"@type":"Answer","text":"Yes. ToolMint's EMI calculator supports loan amounts from ₹1 lakh to ₹1 crore with interest rates from 1% to 30% and tenure from 1 to 30 years — covering virtually all loan types in India."}}]}
+</script>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(function(q){
+  q.addEventListener('click',function(){
+    var item = q.parentElement;
+    item.classList.toggle('open');
+  });
+});
+</script>
 
 <footer>
   <p>© 2025 ToolMint · Free EMI Calculator India · Home Loan · Car Loan · Personal Loan</p>

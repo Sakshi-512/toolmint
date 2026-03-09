@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QRcraft – Free QR Code Generator with Logo, Colors & Frames</title>
+<title>QRcraft - Free QR Code Generator with Logo, Colors & Frames</title>
 <meta name="description" content="Generate free QR codes with custom colors, logos, and frames. Download as PNG or SVG. No signup required. Works for URLs, WhatsApp, WiFi, email & more.">
 <meta name="keywords" content="free qr code generator, qr code with logo, qr code maker, qr code generator online, custom qr code, qr code download">
 <meta property="og:title" content="QRcraft – Free QR Code Generator">
@@ -184,6 +184,18 @@ footer p{font-size:.72rem;color:var(--ink-light);font-weight:300;}
 
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .animate-in{animation:fadeIn .35s ease forwards;}
+/* FAQ SECTION — same as index */
+.faq-section{position:relative;z-index:1;max-width:800px;margin:60px auto 80px;padding:0 24px;}
+.faq-section h2{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;text-align:center;margin-bottom:30px;color:var(--ink);}
+.faq-section h2 span{color:var(--ink);}
+.faq-subtitle{font-size:.85rem;color:var(--ink-light);margin-bottom:16px;}
+.faq-item{background:var(--white);border:1px solid var(--border);margin-bottom:12px;box-shadow:0 2px 10px rgba(26,23,20,.03);transition:all .3s ease;}
+.faq-q{padding:18px 24px;font-size:.95rem;font-weight:600;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;}
+.faq-icon{color:var(--accent);font-size:1.2rem;font-weight:400;transition:transform .3s ease;}
+.faq-a{padding:0 24px;max-height:0;overflow:hidden;color:var(--ink-light);font-size:.85rem;line-height:1.7;transition:all .3s ease;opacity:0;}
+.faq-item.open .faq-a{padding:0 24px 20px;max-height:500px;opacity:1;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZKYGCQPN7B"></script>
@@ -459,6 +471,120 @@ footer p{font-size:.72rem;color:var(--ink-light);font-weight:300;}
   </div>
 </div>
 
+<!-- FAQ SECTION — SEO -->
+<div class="faq-section">
+  <h2>QR Code Generator - Frequently Asked <span>Questions</span></h2>
+    <div class="faq-item">
+      <div class="faq-q">How do I create a QR code for free?<span class="faq-icon">+</span></div>
+      <div class="faq-a">Simply go to ToolMint's QR Code Generator, enter your URL or content, customize colors and style, and click download. No signup required — your QR code is ready in seconds.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I create a QR code for WhatsApp?<span class="faq-icon">+</span></div>
+      <div class="faq-a">Yes. Select 'WhatsApp' as the content type, enter your phone number, and ToolMint generates a WhatsApp QR code instantly. Anyone who scans it will open a WhatsApp chat with you directly.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How do I add a logo to my QR code?<span class="faq-icon">+</span></div>
+      <div class="faq-a">Click the 'Logo' tab in the QR generator, upload your image, and adjust the size. We recommend enabling 'High' error correction to ensure the QR code still scans correctly with a logo.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What formats can I download my QR code in?<span class="faq-icon">+</span></div>
+      <div class="faq-a">You can download your QR code as PNG (for printing and sharing) or SVG (for scaling to any size without quality loss). Both formats are free and watermark-free.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I create a QR code for WiFi?<span class="faq-icon">+</span></div>
+      <div class="faq-a">Yes. Select 'WiFi' as the content type, enter your network name (SSID), password, and security type. Anyone who scans the QR code will connect to your WiFi automatically.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is there a limit to how many QR codes I can generate?<span class="faq-icon">+</span></div>
+      <div class="faq-a">No limits at all. Generate as many QR codes as you need, completely free, with no daily limits or restrictions.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Will my QR code expire?<span class="faq-icon">+</span></div>
+      <div class="faq-a">No. QR codes generated on ToolMint never expire. Since they're generated in your browser and not stored on any server, they work forever.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I create a QR code for a vCard or contact?<span class="faq-icon">+</span></div>
+      <div class="faq-a">Yes. Select 'vCard/Contact' as the content type and fill in the name, phone, email, and other details. Scanning the QR code will let people save your contact instantly.</div>
+    </div>
+</div>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Free QR Code Generator",
+    "url": "https://toolmint.vercel.app/qr-generator",
+    "description": "Generate custom QR codes with logo, colors and frames. Free, no signup, download PNG or SVG instantly.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I create a QR code for free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Simply go to ToolMint's QR Code Generator, enter your URL or content, customize colors and style, and click download. No signup required — your QR code is ready in seconds."
+      }
+    },{
+      "@type": "Question",
+      "name": "Can I create a QR code for WhatsApp?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Select 'WhatsApp' as the content type, enter your phone number, and ToolMint generates a WhatsApp QR code instantly. Anyone who scans it will open a WhatsApp chat with you directly."
+      }
+    },{
+      "@type": "Question",
+      "name": "How do I add a logo to my QR code?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Click the 'Logo' tab in the QR generator, upload your image, and adjust the size. We recommend enabling 'High' error correction to ensure the QR code still scans correctly with a logo."
+      }
+    },{
+      "@type": "Question",
+      "name": "What formats can I download my QR code in?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can download your QR code as PNG (for printing and sharing) or SVG (for scaling to any size without quality loss). Both formats are free and watermark-free."
+      }
+    },{
+      "@type": "Question",
+      "name": "Can I create a QR code for WiFi?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Select 'WiFi' as the content type, enter your network name (SSID), password, and security type. Anyone who scans the QR code will connect to your WiFi automatically."
+      }
+    },{
+      "@type": "Question",
+      "name": "Is there a limit to how many QR codes I can generate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No limits at all. Generate as many QR codes as you need, completely free, with no daily limits or restrictions."
+      }
+    },{
+      "@type": "Question",
+      "name": "Will my QR code expire?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. QR codes generated on ToolMint never expire. Since they're generated in your browser and not stored on any server, they work forever."
+      }
+    },{
+      "@type": "Question",
+      "name": "Can I create a QR code for a vCard or contact?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Select 'vCard/Contact' as the content type and fill in the name, phone, email, and other details. Scanning the QR code will let people save your contact instantly."
+      }
+    }
+  ]
+}
+</script>
+
 <footer>
   <div class="f-logo">QR<span>craft</span></div>
   <p>Free QR Code Generator · Works in any browser · No data stored · No watermarks</p>
@@ -468,6 +594,14 @@ footer p{font-size:.72rem;color:var(--ink-light);font-weight:300;}
 <div class="toast" id="toast"></div>
 
 <script>
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.faq-q').forEach(function(q){
+    q.onclick = function(){
+      var item = this.parentElement;
+      item.classList.toggle('open');
+    };
+  });
+});
 // ── STATE ──
 let logoDataUrl = null;
 let selectedFrame = 'none';

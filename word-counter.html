@@ -146,6 +146,18 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:22
 footer p{font-size:.72rem;color:var(--ink-light);}
 footer a{color:var(--accent);text-decoration:none;font-weight:500;}
 
+/* FAQ SECTION — same as index */
+.faq-section{position:relative;z-index:1;max-width:800px;margin:60px auto 80px;padding:0 24px;}
+.faq-section h2{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;text-align:center;margin-bottom:30px;color:var(--ink);}
+.faq-section h2 span{color:var(--ink);}
+.faq-subtitle{font-size:.85rem;color:var(--ink-light);margin-bottom:16px;}
+.faq-item{background:var(--white);border:1px solid var(--border);margin-bottom:12px;box-shadow:0 2px 10px rgba(26,23,20,.03);transition:all .3s ease;}
+.faq-q{padding:18px 24px;font-size:.95rem;font-weight:600;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;}
+.faq-icon{color:var(--accent);font-size:1.2rem;font-weight:400;transition:transform .3s ease;}
+.faq-a{padding:0 24px;max-height:0;overflow:hidden;color:var(--ink-light);font-size:.85rem;line-height:1.7;transition:all .3s ease;opacity:0;}
+.faq-item.open .faq-a{padding:0 24px 20px;max-height:500px;opacity:1;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+
 @media(max-width:768px){
   .stats-bar{grid-template-columns:repeat(3,1fr);}
   .stats-bar .stat-cell:nth-child(3){border-right:none;}
@@ -282,7 +294,7 @@ Use the platform buttons above to check if your text fits Twitter, Instagram, Li
 
     <!-- SEO BLOCK -->
     <div style="background:var(--white);border:1px solid var(--border);padding:24px;box-shadow:var(--shadow);">
-      <h2 style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:10px;">Free Word Counter — Online Character & Word Count Tool</h2>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:10px;">Free Word Counter - Online Character & Word Count Tool</h2>
       <p style="font-size:.8rem;color:var(--ink-light);line-height:1.9;font-weight:300;">ToolMint's word counter gives you an instant count of words, characters, characters without spaces, sentences, paragraphs, and estimated reading time. Check your text against platform character limits for Twitter/X, Instagram, LinkedIn, WhatsApp and more. Use Find & Replace, change text case, and analyze keyword density — all free, no signup, 100% private.</p>
     </div>
 
@@ -328,6 +340,59 @@ Use the platform buttons above to check if your text fits Twitter, Instagram, Li
 
   </div>
 </div>
+
+<!-- FAQ SECTION — SEO -->
+<div class="faq-section">
+  <h2>Word Counter - Frequently Asked <span>Questions</span></h2>
+  <div class="faq-item">
+    <div class="faq-q">How do I count words online for free?<span class="faq-icon">+</span></div>
+    <div class="faq-a">Paste or type your text into ToolMint's Word Counter and it instantly shows your word count, character count, sentence count, paragraph count, and estimated reading time — all in real time.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What is the Twitter/X character limit?<span class="faq-icon">+</span></div>
+    <div class="faq-a">Twitter (now X) has a 280 character limit per tweet. ToolMint's word counter has a built-in Twitter limit checker — click the 'X Twitter (280)' button to see exactly how many characters you have left.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What is the Instagram caption character limit?<span class="faq-icon">+</span></div>
+    <div class="faq-a">Instagram captions have a 2,200 character limit. Click 'Instagram (2,200)' in ToolMint's word counter to check if your caption fits within the limit.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">How do I check word count for an essay?<span class="faq-icon">+</span></div>
+    <div class="faq-a">Paste your essay into the text box and ToolMint instantly shows your word count. This is useful for school assignments, college essays, and blog posts that have word count requirements.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What does 'reading time' mean in the word counter?<span class="faq-icon">+</span></div>
+    <div class="faq-a">Reading time is an estimate of how long it takes an average person to read your text. The average adult reads about 238 words per minute, so a 500-word article takes roughly 2 minutes to read.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Can I use Find and Replace in the word counter?<span class="faq-icon">+</span></div>
+    <div class="faq-a">Yes. Scroll down to the 'Find & Replace' section, enter the word you want to find and what to replace it with, then click 'Replace All'. It shows you how many replacements were made.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What is keyword density?<span class="faq-icon">+</span></div>
+    <div class="faq-a">Keyword density shows which words appear most frequently in your text and what percentage of your total words they represent. This is useful for SEO writers who want to avoid overusing or underusing important keywords.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Can I convert text to uppercase or lowercase?<span class="faq-icon">+</span></div>
+    <div class="faq-a">Yes. Use the toolbar buttons — 'UPPERCASE' converts all text to capitals, 'lowercase' converts to small letters, and 'Title Case' capitalises the first letter of every word.</div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Free Word Counter & Character Counter","url":"https://toolmint.vercel.app/word-counter","description":"Count words, characters, sentences, paragraphs and reading time instantly. Check Twitter, Instagram and LinkedIn character limits.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I count words online for free?","acceptedAnswer":{"@type":"Answer","text":"Paste or type your text into ToolMint's Word Counter and it instantly shows your word count, character count, sentence count, paragraph count, and estimated reading time — all in real time."}},{"@type":"Question","name":"What is the Twitter/X character limit?","acceptedAnswer":{"@type":"Answer","text":"Twitter (now X) has a 280 character limit per tweet. ToolMint's word counter has a built-in Twitter limit checker — click the 'X Twitter (280)' button to see exactly how many characters you have left."}},{"@type":"Question","name":"What is the Instagram caption character limit?","acceptedAnswer":{"@type":"Answer","text":"Instagram captions have a 2,200 character limit. Click 'Instagram (2,200)' in ToolMint's word counter to check if your caption fits within the limit."}},{"@type":"Question","name":"How do I check word count for an essay?","acceptedAnswer":{"@type":"Answer","text":"Paste your essay into the text box and ToolMint instantly shows your word count. This is useful for school assignments, college essays, and blog posts that have word count requirements."}},{"@type":"Question","name":"What does 'reading time' mean in the word counter?","acceptedAnswer":{"@type":"Answer","text":"Reading time is an estimate of how long it takes an average person to read your text. The average adult reads about 238 words per minute, so a 500-word article takes roughly 2 minutes to read."}},{"@type":"Question","name":"Can I use Find and Replace in the word counter?","acceptedAnswer":{"@type":"Answer","text":"Yes. Scroll down to the 'Find & Replace' section, enter the word you want to find and what to replace it with, then click 'Replace All'. It shows you how many replacements were made."}},{"@type":"Question","name":"What is keyword density?","acceptedAnswer":{"@type":"Answer","text":"Keyword density shows which words appear most frequently in your text and what percentage of your total words they represent. This is useful for SEO writers who want to avoid overusing or underusing important keywords."}},{"@type":"Question","name":"Can I convert text to uppercase or lowercase?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use the toolbar buttons — 'UPPERCASE' converts all text to capitals, 'lowercase' converts to small letters, and 'Title Case' capitalises the first letter of every word."}}]}
+</script>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(function(q){
+  q.addEventListener('click',function(){
+    var item = q.parentElement;
+    item.classList.toggle('open');
+  });
+});
+</script>
 
 <footer>
   <p>© 2025 ToolMint · Free Word Counter & Character Counter · No Signup · Instant Results</p>

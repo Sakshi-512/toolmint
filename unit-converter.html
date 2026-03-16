@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Unit Converter – Length, Weight, Temperature, Speed | ToolMint</title>
+<meta name="description" content="Free online unit converter. Convert length, weight, temperature, speed, area and volume instantly. No signup required. Works on mobile.">
+<meta name="keywords" content="unit converter, length converter, weight converter, temperature converter, km to miles, kg to lbs, celsius to fahrenheit, free unit converter online">
+<link rel="canonical" href="https://toolmint.vercel.app/unit-converter">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "ToolMint Unit Converter",
+      "url": "https://toolmint.vercel.app/unit-converter",
+      "description": "Free online unit converter for length, weight, temperature, speed, area and volume. No signup required.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "offers": {"@type":"Offer","price":"0","priceCurrency":"INR"},
+      "isAccessibleForFree": true
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type":"Question","name":"How do I convert km to miles?","acceptedAnswer":{"@type":"Answer","text":"Select Length category, choose Kilometers as the from unit and Miles as the to unit, enter your value and the result appears instantly. 1 kilometer = 0.621371 miles."}},
+        {"@type":"Question","name":"How do I convert kg to lbs?","acceptedAnswer":{"@type":"Answer","text":"Select Weight category, choose Kilograms as the from unit and Pounds as the to unit. 1 kilogram = 2.20462 pounds."}},
+        {"@type":"Question","name":"How do I convert Celsius to Fahrenheit?","acceptedAnswer":{"@type":"Answer","text":"Select Temperature category, choose Celsius as the from unit and Fahrenheit as the to unit. The formula is F = (C x 9/5) + 32."}},
+        {"@type":"Question","name":"Is this unit converter free?","acceptedAnswer":{"@type":"Answer","text":"Yes. The ToolMint unit converter is completely free with no signup, no limits and no ads interrupting your work."}},
+        {"@type":"Question","name":"How do I convert meters to feet?","acceptedAnswer":{"@type":"Answer","text":"Select Length category, choose Meters as the from unit and Feet as the to unit. 1 meter = 3.28084 feet."}},
+        {"@type":"Question","name":"Can I see all conversions at once?","acceptedAnswer":{"@type":"Answer","text":"Yes. The All Conversions section shows your value converted to every unit in that category simultaneously."}},
+        {"@type":"Question","name":"How do I convert litres to gallons?","acceptedAnswer":{"@type":"Answer","text":"Select Volume category, choose Litres as the from unit and Gallons as the to unit. 1 litre = 0.264172 US gallons."}},
+        {"@type":"Question","name":"Does the unit converter work on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes. The ToolMint unit converter is fully responsive and works on all mobile phones, tablets and desktop computers."}}
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{
+  --bg:#faf8f5;--white:#fff;--ink:#1a1714;--ink-light:#6b6560;
+  --border:#e8e3dc;--accent:#c0392b;--accent-dark:#96281b;
+  --accent-light:#fdf0ee;--surface:#f3f0eb;
+  --shadow:0 2px 20px rgba(26,23,20,.08);--shadow-lg:0 8px 40px rgba(26,23,20,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;min-height:100vh;font-size:15px;line-height:1.6;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231a1714' fill-opacity='0.018'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none;z-index:0;}
+header{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-mark{width:30px;height:30px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:.85rem;color:white;}
+.logo-text{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:var(--ink);letter-spacing:-.5px;}
+.logo-text span{color:var(--accent);}
+.back-link{font-size:.75rem;color:var(--ink-light);text-decoration:none;border:1px solid var(--border);padding:6px 14px;border-radius:100px;transition:all .2s;background:var(--surface);font-weight:500;}
+.back-link:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+.ad-leaderboard{position:relative;z-index:5;background:var(--white);border-bottom:1px solid var(--border);padding:14px;text-align:center;}
+.ad-slot{display:inline-flex;align-items:center;justify-content:center;background:var(--surface);border:1px dashed #ccc;color:#aaa;font-size:.7rem;letter-spacing:1px;font-weight:500;text-transform:uppercase;}
+.ad-728{width:min(728px,100%);height:90px;}
+.page-hero{position:relative;z-index:1;padding:40px 48px 28px;border-bottom:1px solid var(--border);background:var(--white);}
+.breadcrumb{font-size:.72rem;color:var(--ink-light);margin-bottom:12px;}
+.breadcrumb a{color:var(--accent);text-decoration:none;font-weight:500;}
+.page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;letter-spacing:-1px;margin-bottom:8px;}
+.page-hero h1 em{font-style:italic;color:var(--accent);}
+.page-hero p{color:var(--ink-light);font-size:.88rem;font-weight:300;}
+.features{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:16px 24px;}
+.features-inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.fi{display:flex;align-items:center;gap:8px;padding:6px 14px;background:var(--bg);border:1px solid var(--border);}
+.fi span{font-size:.76rem;font-weight:500;color:var(--ink);}
+.main{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:32px 24px 80px;}
+.cat-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;}
+.cat-tab{padding:8px 18px;border:1px solid var(--border);background:var(--white);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;color:var(--ink-light);cursor:pointer;transition:all .2s;border-radius:100px;}
+.cat-tab:hover{border-color:var(--accent);color:var(--accent);}
+.cat-tab.active{background:var(--accent);color:white;border-color:var(--accent);}
+.converter-card{background:var(--white);border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:24px;}
+.converter-header{padding:20px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.ch-icon{width:36px;height:36px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.converter-header h2{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;}
+.converter-header p{font-size:.78rem;color:var(--ink-light);font-weight:300;margin-top:1px;}
+.converter-body{padding:28px;}
+.input-row{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:end;margin-bottom:24px;}
+.input-group label{display:block;font-size:.7rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--ink-light);margin-bottom:7px;}
+.input-group input[type="number"]{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:1.1rem;font-weight:500;padding:12px 16px;outline:none;transition:border-color .2s,box-shadow .2s;}
+.input-group input[type="number"]:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(192,57,43,.08);}
+.input-group input[readonly]{background:var(--surface);color:var(--ink);}
+.input-group select{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;padding:10px 14px;outline:none;cursor:pointer;margin-top:6px;}
+.input-group select:focus{border-color:var(--accent);}
+.swap-btn{width:44px;height:44px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.2rem;transition:all .2s;flex-shrink:0;margin-bottom:2px;}
+.swap-btn:hover{background:var(--accent-light);border-color:var(--accent);}
+.result-box{background:var(--accent);color:white;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px;}
+.result-val{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;letter-spacing:-1px;}
+.result-unit{font-size:.82rem;opacity:.8;margin-top:4px;}
+.result-formula{font-size:.75rem;opacity:.7;margin-bottom:8px;}
+.copy-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.copy-btn:hover{background:rgba(255,255,255,.25);}
+.all-conversions{background:var(--surface);border:1px solid var(--border);padding:20px 24px;}
+.all-conversions h3{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;margin-bottom:14px;}
+.conv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
+.conv-item{background:var(--white);border:1px solid var(--border);padding:12px 16px;cursor:pointer;transition:all .2s;}
+.conv-item:hover{border-color:var(--accent);background:var(--accent-light);}
+.ci-val{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink);}
+.ci-unit{font-size:.72rem;color:var(--ink-light);font-weight:500;margin-top:2px;}
+.faq-section{position:relative;z-index:1;max-width:960px;margin:0 auto 60px;padding:0 24px;}
+.faq-section h2{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;letter-spacing:-.5px;margin-bottom:8px;}
+.faq-section .faq-sub{font-size:.85rem;color:var(--ink-light);margin-bottom:28px;font-weight:300;}
+.faq-item{background:var(--white);border:1px solid var(--border);margin-bottom:8px;box-shadow:var(--shadow);}
+.faq-q{width:100%;text-align:left;background:transparent;border:none;padding:18px 24px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.faq-q:hover{color:var(--accent);}
+.faq-icon{font-size:1.1rem;color:var(--accent);flex-shrink:0;}
+.faq-a{display:none;padding:0 24px 18px;font-size:.85rem;color:var(--ink-light);line-height:1.8;font-weight:300;}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:white;padding:11px 22px;border-radius:100px;font-size:.82rem;font-weight:500;opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:999;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:22px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;background:var(--white);}
+.f-logo{display:flex;align-items:center;gap:8px;}
+.f-logo-mark{width:24px;height:24px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:.7rem;color:white;}
+.f-logo-text{font-family:'Playfair Display',serif;font-size:1rem;font-weight:900;color:var(--ink);}
+.f-logo-text span{color:var(--accent);}
+footer p{font-size:.72rem;color:var(--ink-light);}
+@media(max-width:768px){
+  header{padding:0 20px;}
+  .page-hero{padding:28px 20px;}
+  .input-row{grid-template-columns:1fr;gap:12px;}
+  .swap-btn{width:100%;height:38px;}
+  .result-box{flex-direction:column;align-items:flex-start;gap:10px;}
+  footer{padding:18px 20px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">
+    <div class="logo-mark">T</div>
+    <div class="logo-text">Tool<span>Mint</span></div>
+  </a>
+  <a href="/" class="back-link">← All Tools</a>
+</header>
+
+<div class="ad-leaderboard">
+  <!-- ✅ PASTE GOOGLE ADSENSE 728×90 HERE -->
+  <div class="ad-slot ad-728">Advertisement · Google AdSense 728×90</div>
+</div>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="/">ToolMint</a> › Unit Converter</div>
+  <h1>Free <em>Unit Converter</em></h1>
+  <p>Convert length, weight, temperature, speed, area & volume instantly. No signup required.</p>
+</div>
+
+<div class="features">
+  <div class="features-inner">
+    <div class="fi"><span>📏</span><span>Length</span></div>
+    <div class="fi"><span>⚖️</span><span>Weight</span></div>
+    <div class="fi"><span>🌡️</span><span>Temperature</span></div>
+    <div class="fi"><span>🚀</span><span>Speed</span></div>
+    <div class="fi"><span>📐</span><span>Area</span></div>
+    <div class="fi"><span>🧪</span><span>Volume</span></div>
+    <div class="fi"><span>⚡</span><span>Instant Results</span></div>
+    <div class="fi"><span>📱</span><span>Works on Mobile</span></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="cat-tabs">
+    <button class="cat-tab active" onclick="switchCat('length',this)">📏 Length</button>
+    <button class="cat-tab" onclick="switchCat('weight',this)">⚖️ Weight</button>
+    <button class="cat-tab" onclick="switchCat('temperature',this)">🌡️ Temperature</button>
+    <button class="cat-tab" onclick="switchCat('speed',this)">🚀 Speed</button>
+    <button class="cat-tab" onclick="switchCat('area',this)">📐 Area</button>
+    <button class="cat-tab" onclick="switchCat('volume',this)">🧪 Volume</button>
+  </div>
+
+  <div class="converter-card">
+    <div class="converter-header">
+      <div class="ch-icon" id="cat-icon">📏</div>
+      <div>
+        <h2 id="cat-title">Length Converter</h2>
+        <p id="cat-desc">Convert between meters, kilometers, miles, feet, inches and more</p>
+      </div>
+    </div>
+    <div class="converter-body">
+      <div class="input-row">
+        <div class="input-group">
+          <label>From</label>
+          <input type="number" id="from-val" value="1" oninput="convert()">
+          <select id="from-unit" onchange="convert()"></select>
+        </div>
+        <button class="swap-btn" onclick="swapUnits()">⇄</button>
+        <div class="input-group">
+          <label>To</label>
+          <input type="number" id="to-val" readonly>
+          <select id="to-unit" onchange="convert()"></select>
+        </div>
+      </div>
+
+      <div class="result-box">
+        <div>
+          <div class="result-val" id="result-val">—</div>
+          <div class="result-unit" id="result-unit"></div>
+        </div>
+        <div style="text-align:right">
+          <div class="result-formula" id="result-formula"></div>
+          <button class="copy-btn" onclick="copyResult()">Copy Result</button>
+        </div>
+      </div>
+
+      <div class="all-conversions">
+        <h3>All Conversions for <span id="all-conv-label">1 Meter</span></h3>
+        <div class="conv-grid" id="conv-grid"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="faq-section">
+  <h2>Frequently Asked Questions</h2>
+  <p class="faq-sub">Everything you need to know about our free unit converter</p>
+  <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How do I convert km to miles?<span class="faq-icon">+</span></button><div class="faq-a">Select the Length category, choose Kilometers as the From unit and Miles as the To unit, enter your value and the result appears instantly. 1 kilometer = 0.621371 miles.</div></div>
+  <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How do I convert kg to lbs?<span class="faq-icon">+</span></button><div class="faq-a">Select the Weight category, choose Kilograms as the From unit and Pounds as the To unit. 1 kilogram = 2.20462 pounds.</div></div>
+  <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How do I convert Celsius to Fahrenheit?<span class="faq-icon">+</span></button><div class="faq-a">Select the Temperature category, choose Celsius as the From unit and Fahrenheit as the To unit. The formula is F = (C × 9/5) + 32.</div></div>
+  <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How do I convert meters to feet?<span class="faq-icon">+</span></button><div class="faq-a">Select the Length category, choose Meters as the From unit and Feet as the To unit. 1 meter = 3.28084 feet.</div></div>
+  <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Can I see all conversions at once?<span class="faq-icon">+</span></button><div class="faq-a">Yes. The All Conversions section shows your value converted to every unit in that category simultaneously. Click any result to set it as your To unit.</div></div>
+  <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How do I convert litres to gallons?<span class="faq-icon">+</span></button><div class="faq-a">Select the Volume category, choose Litres as the From unit and Gallons (US) as the To unit. 1 litre = 0.264172 US gallons.</div></div>
+  <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is this unit converter free?<span class="faq-icon">+</span></button><div class="faq-a">Yes. The ToolMint unit converter is completely free with no signup, no limits and no watermarks. Forever free.</div></div>
+  <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Does the unit converter work on mobile?<span class="faq-icon">+</span></button><div class="faq-a">Yes. Fully responsive and works on all mobile phones, tablets and desktop computers.</div></div>
+</div>
+
+<footer>
+  <div class="f-logo">
+    <div class="f-logo-mark">T</div>
+    <div class="f-logo-text">Tool<span>Mint</span></div>
+  </div>
+  <p>Free online tools · No signup · No watermarks · Works everywhere</p>
+  <p style="font-size:.68rem;color:#bbb;">© 2025 ToolMint</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const categories = {
+  length:{icon:'📏',title:'Length Converter',desc:'Convert between meters, kilometers, miles, feet, inches and more',
+    units:['Meter','Kilometer','Mile','Foot','Inch','Centimeter','Millimeter','Yard','Nautical Mile'],
+    toBase:{'Meter':1,'Kilometer':1000,'Mile':1609.344,'Foot':0.3048,'Inch':0.0254,'Centimeter':0.01,'Millimeter':0.001,'Yard':0.9144,'Nautical Mile':1852}},
+  weight:{icon:'⚖️',title:'Weight Converter',desc:'Convert between kilograms, pounds, grams, ounces and more',
+    units:['Kilogram','Gram','Milligram','Pound','Ounce','Ton','Stone'],
+    toBase:{'Kilogram':1,'Gram':0.001,'Milligram':0.000001,'Pound':0.453592,'Ounce':0.0283495,'Ton':1000,'Stone':6.35029}},
+  temperature:{icon:'🌡️',title:'Temperature Converter',desc:'Convert between Celsius, Fahrenheit and Kelvin',
+    units:['Celsius','Fahrenheit','Kelvin'],toBase:null},
+  speed:{icon:'🚀',title:'Speed Converter',desc:'Convert between km/h, mph, m/s, knots and more',
+    units:['Kilometer/Hour','Mile/Hour','Meter/Second','Knot','Foot/Second'],
+    toBase:{'Kilometer/Hour':0.277778,'Mile/Hour':0.44704,'Meter/Second':1,'Knot':0.514444,'Foot/Second':0.3048}},
+  area:{icon:'📐',title:'Area Converter',desc:'Convert between square meters, acres, hectares and more',
+    units:['Square Meter','Square Kilometer','Square Mile','Square Foot','Acre','Hectare','Square Yard'],
+    toBase:{'Square Meter':1,'Square Kilometer':1e6,'Square Mile':2589988,'Square Foot':0.092903,'Acre':4046.86,'Hectare':10000,'Square Yard':0.836127}},
+  volume:{icon:'🧪',title:'Volume Converter',desc:'Convert between litres, gallons, millilitres and more',
+    units:['Litre','Millilitre','Cubic Meter','Gallon (US)','Gallon (UK)','Fluid Ounce','Cup','Pint'],
+    toBase:{'Litre':1,'Millilitre':0.001,'Cubic Meter':1000,'Gallon (US)':3.78541,'Gallon (UK)':4.54609,'Fluid Ounce':0.0295735,'Cup':0.236588,'Pint':0.473176}}
+};
+
+let currentCat = 'length';
+
+function switchCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const c = categories[cat];
+  document.getElementById('cat-icon').textContent = c.icon;
+  document.getElementById('cat-title').textContent = c.title;
+  document.getElementById('cat-desc').textContent = c.desc;
+  buildSelects(cat);
+  convert();
+}
+
+function buildSelects(cat) {
+  const c = categories[cat];
+  const fs = document.getElementById('from-unit');
+  const ts = document.getElementById('to-unit');
+  fs.innerHTML = c.units.map((u,i) => `<option value="${u}" ${i===0?'selected':''}>${u}</option>`).join('');
+  ts.innerHTML = c.units.map((u,i) => `<option value="${u}" ${i===1?'selected':''}>${u}</option>`).join('');
+}
+
+function toBaseTmp(v,u){return u==='Celsius'?v:u==='Fahrenheit'?(v-32)*5/9:v-273.15;}
+function fromBaseTmp(v,u){return u==='Celsius'?v:u==='Fahrenheit'?v*9/5+32:v+273.15;}
+
+function convertVal(v, from, to, cat) {
+  if(cat==='temperature'){return fromBaseTmp(toBaseTmp(v,from),to);}
+  const c = categories[cat];
+  return v * c.toBase[from] / c.toBase[to];
+}
+
+function fmt(n) {
+  if(isNaN(n)||!isFinite(n)) return '—';
+  if(Math.abs(n)>=1e6) return n.toExponential(4);
+  if(Math.abs(n)>=100) return parseFloat(n.toFixed(4)).toString();
+  if(Math.abs(n)>=1) return parseFloat(n.toFixed(6)).toString();
+  return parseFloat(n.toPrecision(6)).toString();
+}
+
+function convert() {
+  const val = parseFloat(document.getElementById('from-val').value);
+  const fu = document.getElementById('from-unit').value;
+  const tu = document.getElementById('to-unit').value;
+  if(isNaN(val)){document.getElementById('result-val').textContent='—';return;}
+  const res = convertVal(val, fu, tu, currentCat);
+  const f = fmt(res);
+  document.getElementById('to-val').value = f;
+  document.getElementById('result-val').textContent = f;
+  document.getElementById('result-unit').textContent = tu;
+  document.getElementById('result-formula').textContent = `${val} ${fu} = ${f} ${tu}`;
+  document.getElementById('all-conv-label').textContent = `${val} ${fu}`;
+  const c = categories[currentCat];
+  document.getElementById('conv-grid').innerHTML = c.units.filter(u=>u!==fu).map(u=>{
+    const r = fmt(convertVal(val,fu,u,currentCat));
+    return `<div class="conv-item" onclick="setToUnit('${u}')"><div class="ci-val">${r}</div><div class="ci-unit">${u}</div></div>`;
+  }).join('');
+}
+
+function setToUnit(u){document.getElementById('to-unit').value=u;convert();}
+
+function swapUnits() {
+  const fs=document.getElementById('from-unit'),ts=document.getElementById('to-unit');
+  const tv=document.getElementById('to-val').value;
+  const tmp=fs.value; fs.value=ts.value; ts.value=tmp;
+  if(tv) document.getElementById('from-val').value=tv;
+  convert();
+}
+
+function copyResult(){
+  const v=document.getElementById('result-val').textContent;
+  const u=document.getElementById('result-unit').textContent;
+  navigator.clipboard.writeText(`${v} ${u}`).then(()=>showToast('Copied!')).catch(()=>showToast('Copy failed'));
+}
+
+function toggleFaq(btn){
+  const a=btn.parentElement.querySelector('.faq-a');
+  const i=btn.querySelector('.faq-icon');
+  if(a.style.display==='block'){a.style.display='none';i.textContent='+';}
+  else{a.style.display='block';i.textContent='×';}
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+buildSelects('length');
+convert();
+</script>
+</body>
+</html>
